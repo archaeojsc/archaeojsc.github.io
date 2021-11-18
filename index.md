@@ -125,7 +125,7 @@
 [Why is a Raven like a Writing Desk?](pdf/CRIDC2020.pdf)
 
 <p>
-   Poster presented at the virtual Career, Research, Innovation and 
+   Poster presented at the 2020 virtual Career, Research, Innovation and 
    Development Conference (CRIDC) at GA Tech. There is much discussion 
    about the ethics and perceived bias in machine learning and artificial 
    intelligence. We took what we believe to be a somewhat different 
