@@ -21,7 +21,7 @@ involved in parsing compelx systems of sets in an archaeological context,
 but I drift into a bit of information theory, distance norms, 
 and high dimensionality.
 
-<img src="images/dummy_thumbnail.jpg?raw=true"/>
+<img src="images/CAA2019_thumb.png?raw=true"/>
 
 ---
 
