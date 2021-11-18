@@ -135,7 +135,7 @@
    associations?
 </p>
 
-<img src="images/CRIDC_thumb.png?raw=true"/>
+<img src="images/CRIDC2020_thumb.png?raw=true"/>
 
 ---
 
