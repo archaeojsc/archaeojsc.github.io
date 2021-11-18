@@ -33,7 +33,7 @@
 </a>
 
 <p>
-   Data and Visual Analytics (DVA) class project at Ga Tech. 
+   Data and Visual Analytics (DVA) class project at GA Tech. 
    My teammates and I performed topic extraction and modeling 
    of the semantic associations between COVID-19 research 
    abstracts as a searchable knowledge graph. Used a 
