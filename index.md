@@ -15,7 +15,22 @@
 <a href="https://youtu.be/sMj125KFeiM">
   <img src="images/UPF_thumb.png?raw=true"/>
 </a>
-  
+
+---
+
+[Sets, Graphs, and Things We Can See: A Formal Combinatorial Ontology for Empirical Intra-Site Analysis](https://journal.caa-international.org/articles/10.5334/jcaa.16/)
+<p>
+  My first journal article. It's a deep-dive into the theory 
+  and methodology of the data content of archaeological sites, 
+  along with a "primer" for archaeologists on set and graph theory.
+  The major finding was that archaeological sites, assemblages, and 
+  contexts can be formalized as a system of multisets.
+</p>
+
+<a href="https://journal.caa-international.org/articles/10.5334/jcaa.16/">
+  <img src="images/JCAA_thumb.png?raw=true"/>
+</a>
+
 ---
 
 ### Presentations and Posters 
