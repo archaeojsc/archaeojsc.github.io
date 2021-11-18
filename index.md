@@ -20,7 +20,7 @@
 </p>
 
 <a target="_blank" rel="noopener noreferrer" href="">
-  <img src=""/>
+  <img src="images/Piper_thumb.png?raw=true"/>
 </a>
 
 ---
@@ -45,7 +45,7 @@
 </p>
 
 <a target="_blank" rel="noopener noreferrer" href="">
-  <img src=""/>
+  <img src="images/DVA_thumb.png?raw=true"/>
 </a>
 
 ---
