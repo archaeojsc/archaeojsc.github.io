@@ -2,7 +2,7 @@
 
 ### Publications
 
-<a target="_blank" rel="noopener noreferrer" href="https://youtu.be/sMj125KFeiM">
+<a target="_blank" rel="noopener noreferrer" href="https://www.mdpi.com/2571-9408/3/3/34">
   Use, Purpose, and Function—Letting the Artifacts Speak
 </a>
 
@@ -15,7 +15,7 @@
   through that lens. 
 </p>
 
-<a target="_blank" rel="noopener noreferrer" href="https://youtu.be/sMj125KFeiM">
+<a target="_blank" rel="noopener noreferrer" href="https://www.mdpi.com/2571-9408/3/3/34">
   <img src="images/UPF_thumb.png?raw=true"/>
 </a>
 
