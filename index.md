@@ -4,12 +4,12 @@
 
 ### Archaeological Projects 
 
-[Project 1 Title](/sample_page)
-<img src="images/dummy_thumbnail.jpg?raw=true"/>
+#[Project 1 Title](/sample_page)
+#<img src="images/dummy_thumbnail.jpg?raw=true"/>
 
----
-[Project 2 Title](/pdf/sample_presentation.pdf)
-<img src="images/dummy_thumbnail.jpg?raw=true"/>
+#---
+#[Project 2 Title](/pdf/sample_presentation.pdf)
+#<img src="images/dummy_thumbnail.jpg?raw=true"/>
 
 ---
 [Point and Line to Hyperplane](https://youtu.be/sMj125KFeiM)
@@ -21,7 +21,9 @@ involved in parsing compelx systems of sets in an archaeological context,
 but I drift into a bit of information theory, distance norms, 
 and high dimensionality.
 
-<img src="images/CAA2019_thumb.png?raw=true"/>
+<a href="https://youtu.be/sMj125KFeiM">
+  <img src="images/CAA2019_thumb.png?raw=true"/>
+</a>
 
 ---
 
