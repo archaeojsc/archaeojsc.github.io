@@ -38,13 +38,10 @@
 
 ### Publications
 
-<a 
-   target="_blank" 
+<a target="_blank" 
    rel="noopener noreferrer" 
-   href="https://www.mdpi.com/2571-9408/3/3/34">
-  
-  Use, Purpose, and Function—Letting the Artifacts Speak
-  
+   href="https://www.mdpi.com/2571-9408/3/3/34">  
+  Use, Purpose, and Function—Letting the Artifacts Speak  
 </a>
 
 <p>
