@@ -1,14 +1,30 @@
 ## Portfolio
 
+### Publications
+
+[Use, Purpose, and Function—Letting the Artifacts Speak](https://www.mdpi.com/2571-9408/3/3/34)
+<p>
+  An article (co-written with my wife) on archaeology, materiality, 
+  and theory of artifact interpretation. This was our first joint 
+  publication (hopefully of many). The theme is how we view, use, 
+  and interact with the material objects around us and how we, 
+  as archaeologists, can interpret the artifacts of the past 
+  through that lens. 
+</p>
+
+<a href="https://youtu.be/sMj125KFeiM">
+  <img src="images/UPF_thumb.png?raw=true"/>
+</a>
+  
 ---
 
-### Presetnations and Posters 
+### Presentations and Posters 
 
 [Point and Line to Hyperplane](https://youtu.be/sMj125KFeiM)
 <p>
-  Recording of a paper I presented a couple years ago for the 2019 
-  Computer Applications and Quantitative Methods in Archaeology (CAA) 
-  international conference at Jagiellonian University in Kraków, Poland. 
+  Recording of a paper I presented at the 2019 Computer Applications 
+  and Quantitative Methods in Archaeology (CAA) international 
+  conference at Jagiellonian University in Kraków, Poland. 
   The topic was discussing the various abstractions and formalization 
   involved in parsing compelx systems of sets in an archaeological context, 
   but I drift into a bit of information theory, distance norms, 
@@ -23,7 +39,7 @@
 
 [Matrix in the Network](https://www.youtube.com/watch?v=WOTs4X5PiDw&feature=share)
 <p>
-  Recording of a paper I presented a couple years ago for the 2018 
+  Recording of a paper I presented at the 2018 
   Computer Applications and Quantitative Methods in Archaeology (CAA) 
   international conference at the University of Tübingen, Germany. 
   The topic was possible applications of set and graph theory to the 
