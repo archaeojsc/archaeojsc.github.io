@@ -2,7 +2,10 @@
 
 ### Publications
 
-[Use, Purpose, and Function—Letting the Artifacts Speak](https://www.mdpi.com/2571-9408/3/3/34)
+<a target="_blank" rel="noopener noreferrer" href="https://youtu.be/sMj125KFeiM">
+  Use, Purpose, and Function—Letting the Artifacts Speak
+</a>
+
 <p>
   An article (co-written with my wife) on archaeology, materiality, 
   and theory of artifact interpretation. This was our first joint 
@@ -12,13 +15,16 @@
   through that lens. 
 </p>
 
-<a href="https://youtu.be/sMj125KFeiM">
+<a target="_blank" rel="noopener noreferrer" href="https://youtu.be/sMj125KFeiM">
   <img src="images/UPF_thumb.png?raw=true"/>
 </a>
 
 ---
 
-[Sets, Graphs, and Things We Can See: A Formal Combinatorial Ontology for Empirical Intra-Site Analysis](https://journal.caa-international.org/articles/10.5334/jcaa.16/)
+<a target="_blank" rel="noopener noreferrer" href="https://journal.caa-international.org/articles/10.5334/jcaa.16/">
+  Sets, Graphs, and Things We Can See: A Formal Combinatorial Ontology for Empirical Intra-Site Analysis
+</a>
+
 <p>
   My first journal article. It's a deep-dive into the theory 
   and methodology of the data content of archaeological sites, 
@@ -27,7 +33,7 @@
   contexts can be formalized as a system of multisets.
 </p>
 
-<a href="https://journal.caa-international.org/articles/10.5334/jcaa.16/">
+<a target="_blank" rel="noopener noreferrer" href="https://journal.caa-international.org/articles/10.5334/jcaa.16/">
   <img src="images/JCAA_thumb.png?raw=true"/>
 </a>
 
@@ -35,7 +41,10 @@
 
 ### Presentations and Posters 
 
-[Point and Line to Hyperplane](https://youtu.be/sMj125KFeiM)
+<a target="_blank" rel="noopener noreferrer" href="https://youtu.be/sMj125KFeiM">
+  Point and Line to Hyperplane
+</a>
+
 <p>
   Recording of a paper I presented at the 2019 Computer Applications 
   and Quantitative Methods in Archaeology (CAA) international 
@@ -46,13 +55,15 @@
   and high dimensionality.
 </p>
 
-<a href="https://youtu.be/sMj125KFeiM">
+<a target="_blank" rel="noopener noreferrer" href="https://youtu.be/sMj125KFeiM">
   <img src="images/CAA2019_thumb.png?raw=true"/>
 </a>
 
 ---
 
-[Matrix in the Network](https://www.youtube.com/watch?v=WOTs4X5PiDw&feature=share)
+<a target="_blank" rel="noopener noreferrer" href="https://www.youtube.com/watch?v=WOTs4X5PiDw&feature=share">
+  Matrix in the Network
+</a>
 <p>
   Recording of a paper I presented at the 2018 
   Computer Applications and Quantitative Methods in Archaeology (CAA) 
@@ -61,7 +72,7 @@
   analysis of archaeological assemblages.
 </p>
 
-<a href="https://www.youtube.com/watch?v=WOTs4X5PiDw&feature=share">
+<a target="_blank" rel="noopener noreferrer" href="https://www.youtube.com/watch?v=WOTs4X5PiDw&feature=share">
   <img src="images/CAA2018_thumb.png?raw=true"/>
 </a>
 
