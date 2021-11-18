@@ -1,9 +1,50 @@
-## Portfolio
+## My Portfolio
+
+### Projects
+
+<a target="_blank" 
+   rel="noopener noreferrer"
+   href="">
+  Mapping linguistic psychomentrics using NLP/NLU 
+  and graph community detection
+</a>
+
+<p>
+  ...
+</p>
+
+<a target="_blank" rel="noopener noreferrer" href="">
+  <img src=""/>
+</a>
+
+---
+
+<a target="_blank" 
+   rel="noopener noreferrer"
+   href="">
+  Semantic modeling of paper topics using 
+  topological overlap matrix (TOM) adjacency
+</a>
+
+<p>
+  ...
+</p>
+
+<a target="_blank" rel="noopener noreferrer" href="">
+  <img src=""/>
+</a>
+
+---
 
 ### Publications
 
-<a target="_blank" rel="noopener noreferrer" href="https://www.mdpi.com/2571-9408/3/3/34">
+<a 
+   target="_blank" 
+   rel="noopener noreferrer" 
+   href="https://www.mdpi.com/2571-9408/3/3/34">
+  
   Use, Purpose, and Function—Letting the Artifacts Speak
+  
 </a>
 
 <p>
@@ -15,14 +56,19 @@
   through that lens. 
 </p>
 
-<a target="_blank" rel="noopener noreferrer" href="https://www.mdpi.com/2571-9408/3/3/34">
+<a target="_blank" 
+   rel="noopener noreferrer" 
+   href="https://www.mdpi.com/2571-9408/3/3/34">
   <img src="images/UPF_thumb.png?raw=true"/>
 </a>
 
 ---
 
-<a target="_blank" rel="noopener noreferrer" href="https://journal.caa-international.org/articles/10.5334/jcaa.16/">
-  Sets, Graphs, and Things We Can See: A Formal Combinatorial Ontology for Empirical Intra-Site Analysis
+<a target="_blank" 
+   rel="noopener noreferrer" 
+   href="https://journal.caa-international.org/articles/10.5334/jcaa.16/">
+  Sets, Graphs, and Things We Can See: A Formal 
+  Combinatorial Ontology for Empirical Intra-Site Analysis
 </a>
 
 <p>
@@ -33,7 +79,9 @@
   contexts can be formalized as a system of multisets.
 </p>
 
-<a target="_blank" rel="noopener noreferrer" href="https://journal.caa-international.org/articles/10.5334/jcaa.16/">
+<a target="_blank" 
+   rel="noopener noreferrer" 
+   href="https://journal.caa-international.org/articles/10.5334/jcaa.16/">
   <img src="images/JCAA_thumb.png?raw=true"/>
 </a>
 
@@ -41,7 +89,9 @@
 
 ### Presentations and Posters 
 
-<a target="_blank" rel="noopener noreferrer" href="https://youtu.be/sMj125KFeiM">
+<a target="_blank" 
+   rel="noopener noreferrer" 
+   href="https://youtu.be/sMj125KFeiM">
   Point and Line to Hyperplane
 </a>
 
@@ -55,13 +105,17 @@
   and high dimensionality.
 </p>
 
-<a target="_blank" rel="noopener noreferrer" href="https://youtu.be/sMj125KFeiM">
+<a target="_blank" 
+   rel="noopener noreferrer" 
+   href="https://youtu.be/sMj125KFeiM">
   <img src="images/CAA2019_thumb.png?raw=true"/>
 </a>
 
 ---
 
-<a target="_blank" rel="noopener noreferrer" href="https://www.youtube.com/watch?v=WOTs4X5PiDw&feature=share">
+<a target="_blank" 
+   rel="noopener noreferrer" 
+   href="https://www.youtube.com/watch?v=WOTs4X5PiDw&feature=share">
   Matrix in the Network
 </a>
 <p>
@@ -72,22 +126,11 @@
   analysis of archaeological assemblages.
 </p>
 
-<a target="_blank" rel="noopener noreferrer" href="https://www.youtube.com/watch?v=WOTs4X5PiDw&feature=share">
+<a target="_blank" 
+   rel="noopener noreferrer" 
+   href="https://www.youtube.com/watch?v=WOTs4X5PiDw&feature=share">
   <img src="images/CAA2018_thumb.png?raw=true"/>
 </a>
-
-### Data Analytics Projects
-
-- [Project 1 Title](http://example.com/)
-- [Project 2 Title](http://example.com/)
-- [Project 3 Title](http://example.com/)
-- [Project 4 Title](http://example.com/)
-- [Project 5 Title](http://example.com/)
-
----
-
-
-
 
 ---
 <p style="font-size:11px">Page template forked from <a href="https://github.com/evanca/quick-portfolio">evanca</a></p>
