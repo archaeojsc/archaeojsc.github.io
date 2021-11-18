@@ -5,12 +5,18 @@
 <a target="_blank" 
    rel="noopener noreferrer"
    href="">
-  Mapping linguistic psychomentrics using NLP/NLU 
+  Mapping linguistic psychometrics using NLP/NLU 
   and graph community detection
 </a>
 
 <p>
-  ...
+   Practicum project at GA Tech. My teammate (James Roberts) and I 
+   applied natural language processing, functional linguistics, and 
+   belief network analysis to detect styles of political speech in a sample 
+   of social media posts. Using specific parts of speech (i.e., pronouns) 
+   as psychometric indicators of discourse style, we extracted linguistic 
+   markers for clusivity and affinity to identify agonistic speech acts, 
+   conviction of belief, affiliation, and sentiment.
 </p>
 
 <a target="_blank" rel="noopener noreferrer" href="">
@@ -27,7 +33,15 @@
 </a>
 
 <p>
-  ...
+   Data and Visual Analytics (DVA) class project at Ga Tech. 
+   My teammates and I performed topic extraction and modeling 
+   of the semantic associations between COVID-19 research 
+   abstracts as a searchable knowledge graph. Used a 
+   transformer-based NLP topic extraction to form a network 
+   of topically related research papers. Communities detected 
+   within that graph corresponded to a biclustering of associations 
+   that simultaneously describe the similarity between articles 
+   and topics, providing conceptually driven semantic search.
 </p>
 
 <a target="_blank" rel="noopener noreferrer" href="">
