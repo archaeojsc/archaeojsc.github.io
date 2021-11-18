@@ -10,13 +10,13 @@
 </a>
 
 <p>
-   Practicum project at GA Tech. My teammate (James Roberts) and I 
-   applied natural language processing, functional linguistics, and 
-   belief network analysis to detect styles of political speech in a sample 
-   of social media posts. Using specific parts of speech (i.e., pronouns) 
-   as psychometric indicators of discourse style, we extracted linguistic 
-   markers for clusivity and affinity to identify agonistic speech acts, 
-   conviction of belief, affiliation, and sentiment.
+   Practicum project at GA Tech. My teammate and I applied natural language 
+   processing, functional linguistics, and belief network analysis to detect 
+   styles of political speech in a sample of social media posts. Using specific 
+   parts of speech (i.e., pronouns) as psychometric indicators of discourse 
+   style, we extracted linguistic markers for clusivity and affinity to 
+   identify agonistic speech acts, conviction of belief, affiliation, 
+   and sentiment.
 </p>
 
 <a target="_blank" rel="noopener noreferrer" href="">
