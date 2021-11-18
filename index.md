@@ -50,6 +50,28 @@
 
 ---
 
+<a target="_blank" 
+   rel="noopener noreferrer" 
+   href="">  
+  Spatio-temporal assemblage analysis of Fort Edward, New York  
+</a>
+
+<p>
+   Performed spatio-temporal analysis of artifact assemblages by 
+   adapting weighted gene co-expression analysis (WGCNA) to the 
+   3D locations of particular diagnostic artifacts in order to 
+   reconstruct sequences of deposition across the archaeological 
+   excavations. 
+</p>
+
+<a target="_blank" 
+   rel="noopener noreferrer" 
+   href="">
+  <img src="images/FTED_thumb.png?raw=true"/>
+</a>
+
+---
+
 ### Publications
 
 <a target="_blank" 
