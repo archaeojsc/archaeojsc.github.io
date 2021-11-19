@@ -1,5 +1,7 @@
 ## My Portfolio
 
+**Please note -- this site is under construction. Project pages will be available soon. **
+
 ### Projects
 
 <a target="_blank" 
