@@ -141,7 +141,7 @@
 
 ---
 
-[The archaeology of Data](pdf/Cardinal_James_ArchaeologyOfData.pdf)
+[The Archaeology of Data](pdf/Cardinal_James_ArchaeologyOfData.pdf)
 
 <p>
    Poster presented at the 2020 virtual Career, Research, Innovation and 
