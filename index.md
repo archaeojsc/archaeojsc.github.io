@@ -127,7 +127,7 @@
 [Why is a Raven like a Writing Desk?](pdf/CRIDC2020.pdf)
 
 <p>
-   Poster presented at the 2020 virtual Career, Research, Innovation and 
+   Poster presented at the 2021 virtual Career, Research, Innovation and 
    Development Conference (CRIDC) at GA Tech. There is much discussion 
    about the ethics and perceived bias in machine learning and artificial 
    intelligence. We took what we believe to be a somewhat different 
@@ -138,6 +138,27 @@
 </p>
 
 <img src="images/CRIDC2020_thumb.png?raw=true"/>
+
+---
+
+[The archaeology of Data](pdf/Cardinal_James_ArchaeologyOfData.pdf)
+
+<p>
+   Poster presented at the 2020 virtual Career, Research, Innovation and 
+   Development Conference (CRIDC) at GA Tech. When one thinks of archaeology, 
+   it may suggest ancient civilizations, exotic art and objects in museums, 
+   or portrayals in popular media such as “Indiana Jones” or “Lara Croft”. 
+   It might be difficult to imagine a world any more different from the 
+   advanced technologies and mathematics of data science. The actual practice 
+   of archaeology, however, has many surprising parallels with modern data 
+   science – stochastic and inhomogeneous spatial processes, classification 
+   and clustering problems, social network and graph analysis, and managing 
+   unstructured data ontologies. The true commonality, though, is that both 
+   are interested in developing methodologies for converting data into 
+   information, with the goal of transforming that information into knowledge. 
+</p>
+
+<img src="images/CRIDC2019_thumb.png?raw=true"/>
 
 ---
 
