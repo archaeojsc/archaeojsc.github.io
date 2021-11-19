@@ -1,6 +1,6 @@
 ## My Portfolio
 
-**Please note -- this site is under construction. Project pages will be available soon. **
+*Please note -- this site is under construction. Project pages will be available soon.*
 
 ### Projects
 
