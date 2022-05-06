@@ -1,8 +1,8 @@
-## My Portfolio
+# My Portfolio
 
 *Please note -- this site is under construction. Project pages will be available soon.*
 
-### Projects
+## Projects
 
 <a target="_blank" 
    rel="noopener noreferrer"
@@ -11,7 +11,6 @@
   and graph community detection
 </a>
 
-<p>
    Practicum project at GA Tech. My teammate and I applied natural language 
    processing, functional linguistics, and belief network analysis to detect 
    styles of political speech in a sample of social media posts. Using specific 
@@ -19,7 +18,6 @@
    style, we extracted linguistic markers for clusivity and affinity to 
    identify agonistic speech acts, conviction of belief, affiliation, 
    and sentiment.
-</p>
 
 <a target="_blank" rel="noopener noreferrer" href="">
   <img src="images/Piper_thumb.png?raw=true"/>
