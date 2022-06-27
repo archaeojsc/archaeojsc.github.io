@@ -17,6 +17,14 @@ and algorithms from "scratch" (i.e., using minimal or base/common libraries).
 Check back, as I'll be expanding the list as I have time and as I'm exploring
 more on my own.
 
+Currently includes:  
+
+* $k$-means and $k$-medoids clustering
+
+Coming soon:  
+
+* Isomap
+
 ---
 
 #### Mapping linguistic psychometrics using NLP/NLU and graph community detection
@@ -85,7 +93,7 @@ See](images/JCAA_thumb.png)](https://journal.caa-international.org/articles/10.5
 
 ---
 
-### Presentations and Posters 
+### Presentations and Posters
 
 #### [Why is a Raven like a Writing Desk?](pdf/CRIDC2020.pdf)
 
