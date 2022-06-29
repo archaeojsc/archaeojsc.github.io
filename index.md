@@ -17,7 +17,7 @@ and algorithms from "scratch" (i.e., using minimal or base/common libraries).
 Check back, as I'll be expanding the list as I have time and as I'm exploring
 more on my own.
 
-Currently includes:  
+Currently in progress:  
 
 * k-means and k-medoids clustering
 
