@@ -1,7 +1,9 @@
 logo: "/images/JSC_logo.png?raw=true" # your photo (or logo) here
 title: J. Scott Cardinal # your name (or website title) here
 description: > # your text below (remove <br> elements if you don't need line breaks)
-  I'm a professional archaeologist turned data scientist. My work involves:  
+  <p>
+    I'm a professional archaeologist turned data scientist. My work involves:  
+  </p>
   
   <ul>
     <li> Unsupervised learning and community detection</li>
@@ -11,7 +13,7 @@ description: > # your text below (remove <br> elements if you don't need line br
     <li> Bayesian geo-statistics</li>
     <li> graph-based algorithms</li>
   </ul>
-  <br><br>
+
   <a href="https://www.linkedin.com/in/cardinal-jscott">View My LinkedIn Profile</a> 
   
 theme: jekyll-theme-minimal
