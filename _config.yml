@@ -1,11 +1,16 @@
 logo: "/images/JSC_logo.png?raw=true" # your photo (or logo) here
 title: J. Scott Cardinal # your name (or website title) here
 description: > # your text below (remove <br> elements if you don't need line breaks)
-  I've been a professional archaeologist specializing in computational analyses 
-  for partitioning complex sets, GIS and geo-statistics, and a bit of 3D photogrammetry 
-  for recording site features <it>in situ</it>. As a data scientist, my 
-  interests are unsupervised and semi-supervised learning, Bayesian analysis, 
-  graph-based algorithms, and Natural Language Processing (NLP) and Understanding (NLU). 
+  I'm a professional archaeologist turned data scientist. My work involves:  
+  
+  <ul>
+    <li> Unsupervised learning and community detection</li>
+    <li> GIS and geo-statistics</li>
+    <li> a bit of 3D photogrammetry</li>
+    <li> semi-supervised learning</li>
+    <li> Bayesian geo-statistics</li>
+    <li> graph-based algorithms</li>
+  </ul>
   <br><br>
   <a href="https://www.linkedin.com/in/cardinal-jscott">View My LinkedIn Profile</a> 
   
