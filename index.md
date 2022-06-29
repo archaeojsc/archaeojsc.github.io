@@ -19,7 +19,7 @@ more on my own.
 
 Currently in progress:  
 
-* k-means and k-medoids clustering
+* $k$-means clustering
 
 Coming soon:  
 
