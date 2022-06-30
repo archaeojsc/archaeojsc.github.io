@@ -17,13 +17,14 @@ and algorithms from "scratch" (i.e., using minimal or base/common libraries).
 Check back, as I'll be expanding the list as I have time and as I'm exploring
 more on my own.
 
-Currently in progress:  
+Currently available:  
 
 * k-means clustering
 
 Coming soon:  
 
 * Isomap
+* Random Forest
 
 ---
 
@@ -37,6 +38,18 @@ experiments with probability distribution modeling.
 
 The code in this repository is very rough for now. I'll clean them up into
 formal scripts as I have time.
+
+Currently available:
+
+* Summarization utility functions for artifact counts, find depths, and
+  temporally diagnostic dates using `tidyverse`
+* Experiments with creating mixture distributions (using `mixdist`) for
+  temporally diagnostic artifact dates comprised of the independent uniform
+  distributions for each artifact type. Working on bootstrap estimates.
+* Example automation code for generating standardized summaries for different
+  artifact categories and spatial units for use in reports, piped to markdown
+  tables using `tidyverse`. Incorporate spatial data pulled form ESRI shapefiles
+  with `terra` and `sf`.
 
 ---
 
