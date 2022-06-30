@@ -1,7 +1,7 @@
 
-## Projects
+# Projects
 
-### Mapping linguistic psychometrics using NLP/NLU and graph community detection
+## Mapping linguistic psychometrics using NLP/NLU and graph community detection
 
 Practicum project at GA Tech. My teammate and I applied natural language
 processing, functional linguistics, and belief network analysis to detect
@@ -14,7 +14,7 @@ agonistic speech acts, conviction of belief, affiliation, and sentiment.
 
 ---
 
-### Semantic modeling of paper topics using topological overlap matrix (TOM) adjacency
+## Semantic modeling of paper topics using topological overlap matrix (TOM) adjacency
 
 Data and Visual Analytics (DVA) class project at GA Tech. My teammates and I
 performed topic extraction and modeling of the semantic associations between
@@ -28,7 +28,7 @@ between articles and topics, providing conceptually driven semantic search.
 
 ---
 
-### Spatio-temporal assemblage analysis of Fort Edward, New York  
+## Spatio-temporal assemblage analysis of Fort Edward, New York  
 
 Performed spatio-temporal analysis of artifact assemblages by adapting weighted
 gene co-expression analysis (WGCNA) to the 3D locations of particular

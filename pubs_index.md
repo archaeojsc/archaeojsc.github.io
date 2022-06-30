@@ -1,6 +1,6 @@
-## Publications
+# Publications
 
-### [Use, Purpose, and Function -- Letting the Artifacts Speak](https://www.mdpi.com/2571-9408/3/3/34)
+## [Use, Purpose, and Function -- Letting the Artifacts Speak](https://www.mdpi.com/2571-9408/3/3/34) &larrhk;
 
 An article (co-written with my wife) on archaeology, materiality, and theory of
 artifact interpretation. This was our first joint publication (hopefully of
@@ -13,7 +13,7 @@ Function](images/UPF_thumb.png)](https://www.mdpi.com/2571-9408/3/3/34)
 
 ---
 
-### [Sets, Graphs, and Things We Can See: A Formal Combinatorial Ontology for Empirical Intra-Site Analysis](https://journal.caa-international.org/articles/10.5334/jcaa.16/)
+## [Sets, Graphs, and Things We Can See: A Formal Combinatorial Ontology for Empirical Intra-Site Analysis](https://journal.caa-international.org/articles/10.5334/jcaa.16/) &larrhk;
 
 My first journal article. It's a deep-dive into the theory and methodology of
 the data content of archaeological sites, along with a "primer" for

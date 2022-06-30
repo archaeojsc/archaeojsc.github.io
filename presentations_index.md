@@ -1,7 +1,7 @@
 
-## Presentations and Posters
+# Presentations and Posters
 
-### [Why is a Raven like a Writing Desk?](pdf/CRIDC2020.pdf)
+## [Why is a Raven like a Writing Desk?](pdf/CRIDC2020.pdf) &larrhk;
 
 Poster presented at the 2021 virtual Career, Research, Innovation and
 Development Conference (CRIDC) at GA Tech. 
@@ -17,7 +17,7 @@ Desk?](images/CRIDC2020_thumb.png)](pdf/CRIDC2020.pdf)
 
 ---
 
-### [The Archaeology of Data](pdf/Cardinal_James_ArchaeologyOfData.pdf)
+## [The Archaeology of Data](pdf/Cardinal_James_ArchaeologyOfData.pdf) &larrhk;
 
 Poster presented at the 2020 virtual Career, Research, Innovation and
 Development Conference (CRIDC) at GA Tech. Winner of the Executive Vice
@@ -39,7 +39,7 @@ Data](images/CRIDC2019_thumb.png)](pdf/Cardinal_James_ArchaeologyOfData.pdf)
 
 ---
 
-### [Point and Line to Hyperplane](https://youtu.be/sMj125KFeiM)
+## [Point and Line to Hyperplane](https://youtu.be/sMj125KFeiM) &larrhk;
 
 Recording of a paper I presented at the 2019 Computer Applications and
 Quantitative Methods in Archaeology (CAA) international conference at
@@ -53,7 +53,7 @@ Hyperplane](images/CAA2019_thumb.png)](https://youtu.be/sMj125KFeiM)
 
 ---
 
-### [Matrix in the Network](https://www.youtube.com/watch?v=WOTs4X5PiDw&feature=share)
+## [Matrix in the Network](https://www.youtube.com/watch?v=WOTs4X5PiDw&feature=share) &larrhk;
 
 Recording of a paper I presented at the 2018 Computer Applications and
 Quantitative Methods in Archaeology (CAA) international conference at the

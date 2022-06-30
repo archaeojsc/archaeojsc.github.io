@@ -1,7 +1,7 @@
 
-## GitHub Repositories
+# GitHub Repositories
 
-### [Machine Learning from "Scratch"](https://github.com/archaeojsc/ML_from_scratch)
+## [Machine Learning from "Scratch"](https://github.com/archaeojsc/ML_from_scratch) &larrhk;
 
 Building machine learning methods from basic principles is a great way to
 understand the mathematical and algorithmic intuitions behind the methods. Yes
@@ -24,7 +24,7 @@ Coming soon:
 
 ---
 
-### [Data Science in Archaeology](https://github.com/archaeojsc/Archaeo_DS)
+## [Data Science in Archaeology](https://github.com/archaeojsc/Archaeo_DS) &larrhk;
 
 A "day in the life" repository of using data science as an archaeologist...
 samples from some of my work projects and experiments (mainly in R). Much of
