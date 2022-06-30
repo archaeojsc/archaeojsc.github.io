@@ -53,6 +53,7 @@ Currently available:
 
 
 ### Projects
+
 #### Mapping linguistic psychometrics using NLP/NLU and graph community detection
 
 Practicum project at GA Tech. My teammate and I applied natural language
@@ -131,7 +132,8 @@ we really know what we are training such models on? More specifically, are we
 training on characteristics that are truly innate or merely on our own implicit
 perceptions of associations?
 
-![Why is a Raven like a Writing Desk?](images/CRIDC2020_thumb.png)
+[![Why is a Raven like a Writing
+Desk?](images/CRIDC2020_thumb.png)](pdf/CRIDC2020.pdf)
 
 ---
 
@@ -150,7 +152,8 @@ ontologies. The true commonality, though, is that both are interested in
 developing methodologies for converting data into information, with the goal of
 transforming that information into knowledge.
 
-![The Archaeology of Data](images/CRIDC2019_thumb.png)
+[![The Archaeology of
+Data](images/CRIDC2019_thumb.png)](pdf/Cardinal_James_ArchaeologyOfData.pdf)
 
 ---
 
@@ -163,7 +166,8 @@ abstractions and formalization involved in parsing complex systems of sets in
 an archaeological context, but I drift into a bit of information theory,
 distance norms, and high dimensionality.
 
-![Point and Line to Hyperplane](images/CAA2019_thumb.png)
+[![Point and Line to
+Hyperplane](images/CAA2019_thumb.png)](https://youtu.be/sMj125KFeiM)
 
 ---
 
@@ -174,7 +178,8 @@ Quantitative Methods in Archaeology (CAA) international conference at the
 University of Tübingen, Germany. The topic was possible applications of set and
 graph theory to the analysis of archaeological assemblages.
 
-![Matrix in the Network](images/CAA2018_thumb.png)
+[![Matrix in the
+Network](images/CAA2018_thumb.png)](https://www.youtube.com/watch?v=WOTs4X5PiDw&feature=share)
 
 ---
 <p style="font-size:11px">Page template forked from <a href="https://github.com/evanca/quick-portfolio">evanca</a></p>
