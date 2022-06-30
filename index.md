@@ -1,9 +1,9 @@
 ## My Portfolio
 
-*Please note -- this site is under construction. Project pages will be
-available soon.*
+*Please note -- this site is under construction. Project pages and additional
+content will be available soon.*
 
-### Projects
+### GitHub Repositories
 
 #### [Machine Learning from "Scratch"](https://github.com/archaeojsc/ML_from_scratch)
 
@@ -51,8 +51,8 @@ Currently available:
   tables using `tidyverse`. Incorporate spatial data pulled form ESRI shapefiles
   with `terra` and `sf`.
 
----
 
+### Projects
 #### Mapping linguistic psychometrics using NLP/NLU and graph community detection
 
 Practicum project at GA Tech. My teammate and I applied natural language
