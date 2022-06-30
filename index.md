@@ -5,13 +5,13 @@ content will be available soon.*
 
 ---
 
-## [GitHub Repositories](github_index.md) &larrhk;
+## [GitHub Repositories](github_index.md) :link:
 
 * Machine Learning from "Scratch"
 
 * Data Science in Archaeology
 
-## [Projects](projects_index.md) &larrhk;
+## [Projects](projects_index.md) :link:
 
 * Mapping linguistic psychometrics using NLP/NLU and graph community detection
 
@@ -20,7 +20,7 @@ content will be available soon.*
 
 * Spatio-temporal assemblage analysis of Fort Edward, New York  
 
-## [Publications](pubs_index.md) &larrhk;
+## [Publications](pubs_index.md) :link:
 
 * Loughmiller-Cardinal, Jennifer A., and J. S. Cardinal. 2020. "Use, Purpose,
   and Function—Letting the Artifacts Speak" Heritage 3, no. 3: 587-605.
@@ -31,7 +31,7 @@ content will be available soon.*
   Applications in Archaeology, 2(1), pp.56–78. DOI:
   [10.5334/jcaa.16](http://doi.org/10.5334/jcaa.16)
 
-## [Presentations and Posters](presentations_index.md) &larrhk;
+## [Presentations and Posters](presentations_index.md) :link:
 
 * "Why is a Raven like a Writing Desk?" Poster presented at the 2021 virtual
   Career, Research, Innovation and Development Conference (CRIDC) at GA Tech.
