@@ -8,14 +8,16 @@ description: > # your text below (remove <br> elements if you don't need line br
   scientist. Much of my work and interests involve:<br>  
   
   <ul>
-    <li> Unsupervised and semi-supervised machine learning</li>
-    <li> GIS and geo-statistics</li>
-    <li> A bit of 3D photogrammetry</li>
-    <li> Bayesian statistics</li>
-    <li> graph-based algorithms</li>
+    <li>Unsupervised and semi-supervised machine learning</li>
+    <li>GIS and geo-statistics</li>
+    <li>A bit of 3D photogrammetry</li>
+    <li>Bayesian statistics</li>
+    <li>graph-based algorithms</li>
   </ul>
 
 linkedin: https://www.linkedin.com/in/cardinal-jscott
+
+email: cardinal.scott@gmail.com
   
 theme: jekyll-theme-minimal
 
