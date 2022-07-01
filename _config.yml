@@ -1,11 +1,12 @@
 logo: "/images/JSC_logo.png?raw=true" # your photo (or logo) here
+
 title: J. Scott Cardinal # your name (or website title) here
+
 description: > # your text below (remove <br> elements if you don't need line breaks)
 
   <p>
-    I'm a professional <a
-    href="https://www.linkedin.com/in/cardinal-jscott">archaeologist turned data
-    scientist</a>. Much of my work and interests involve:  
+    I'm a professional archaeologist turned data
+    scientist. Much of my work and interests involve:  
   </p>
   
   <ul>
@@ -15,6 +16,9 @@ description: > # your text below (remove <br> elements if you don't need line br
     <li> Bayesian statistics</li>
     <li> graph-based algorithms</li>
   </ul>
+
+linkedin: https://www.linkedin.com/in/cardinal-jscott
   
 theme: jekyll-theme-minimal
+
 google_analytics: UA-000000-0 # your Google Analytics tracking ID here
