@@ -15,11 +15,11 @@ description: > # your text below (remove <br> elements if you don't need line br
     <li>graph-based algorithms</li>
   </ul>
 
-linkedin: https://www.linkedin.com/in/cardinal-jscott
+has_linkedin: https://www.linkedin.com/in/cardinal-jscott
 
-email: cardinal.scott@gmail.com
+has_email: cardinal.scott@gmail.com
 
-resume: "pdf\JSCardinal_Resume.pdf"
+has_resume: "pdf\JSCardinal_Resume.pdf"
   
 theme: jekyll-theme-minimal
 

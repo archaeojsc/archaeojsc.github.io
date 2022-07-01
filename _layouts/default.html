@@ -16,8 +16,8 @@
       <header>
         <h1><a href="{{ "/" | absolute_url }}">{{ site.title | default: site.github.repository_name }}</a></h1>
         
-        {% if site.email %}
-          <p>{{ site.email }}</p>
+        {% if site.has_email %}
+          <p>{{ site.has_email }}</p>
         {% endif %}
         
         {% if site.logo %}
@@ -32,11 +32,11 @@
 
         {% if site.github.is_user_page %}
         <p class="view">
-          {% if site.resume %}
-          <a href="{{ site.resume | relative_url}}" target="_blank">View My Current Resume</a><br>
+          {% if site.has_resume %}
+          <a href="{{ site.has_resume | relative_url}}" target="_blank">View My Current Resume</a><br>
           {% endif %}
-          {% if site.linkedin %}
-          <a href="{{ site.linkedin }}" target="_blank">View My LinkedIn Profile</a><br>
+          {% if site.has_linkedin %}
+          <a href="{{ site.has_linkedin }}" target="_blank">View My LinkedIn Profile</a><br>
           {% endif %}
           <a href="{{ site.github.owner_url }}" target="_blank">View My GitHub Profile</a>
         </p>
