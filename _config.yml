@@ -4,10 +4,8 @@ title: J. Scott Cardinal # your name (or website title) here
 
 description: > # your text below (remove <br> elements if you don't need line breaks)
 
-  <p>
-    I'm a professional archaeologist turned data
-    scientist. Much of my work and interests involve:  
-  </p>
+  I'm a professional archaeologist turned data
+  scientist. Much of my work and interests involve:<br>  
   
   <ul>
     <li> Unsupervised and semi-supervised machine learning</li>
