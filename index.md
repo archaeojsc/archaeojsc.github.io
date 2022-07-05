@@ -5,6 +5,13 @@ content will be available soon.*
 
 ---
 
+## [Current Resume](pdf/JSCardinal_Resume_current.pdf)
+
+Experienced project manager, research analyst, and social scientist with a 20+
+years' record of technical innovation and team leadership. Specialized in
+exploratory and experimental analytics for complex and unstructured data.
+Expertise in geo-spatial pattern detection and latent feature analysis.
+
 ## [GitHub Repositories](github_index.md)
 
 * Machine Learning from "Scratch"
