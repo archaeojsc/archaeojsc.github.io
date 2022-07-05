@@ -1,16 +1,22 @@
 # Portfolio
 
-*Please note -- this site is under construction. Project pages and additional
-content will be available soon.*
-
----
-
-## [Current Resume](pdf/JSCardinal_Resume_current.pdf)
-
 Experienced project manager, research analyst, and social scientist with a 20+
 years' record of technical innovation and team leadership. Specialized in
 exploratory and experimental analytics for complex and unstructured data.
 Expertise in geo-spatial pattern detection and latent feature analysis.
+
+I've spent my career using data to tell detailed stories about what people were
+doing hundreds or thousands of years in the past from the patterns in tiny
+pieces of pottery, bits of stone or bone, or subtle differences in soils.
+
+The odds are good that I can find patterns in your data as well.
+
+You can view my current resume [here](pdf/JSCardinal_Resume_current.pdf)
+
+*Please note -- this site is under construction. Project pages and additional
+content will be available soon.*
+
+---
 
 ## [GitHub Repositories](github_index.md)
 
