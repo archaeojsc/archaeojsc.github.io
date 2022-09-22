@@ -1,6 +1,16 @@
 
 # Projects
 
+## [Bipartite Graphs for Archaeological Assemblage Networks (Part I)](docs\assemblage_network_doc.html)
+
+This will be the first of a short series of articles to demonstrate how I've
+been using data, statistics, and such to gain insights into archaeological
+research questions. In this installment, I discuss how archaeological sites map
+to bipartite graphs and the initial setup and exploration of those tow-mode
+graphs with `R`.
+
+![Indiana Jones and the Temple of Math.](docs/assemblage_network/archaeo_DS.png)
+
 ## Mapping linguistic psychometrics using NLP/NLU and graph community detection
 
 Practicum project at GA Tech. My teammate and I applied natural language

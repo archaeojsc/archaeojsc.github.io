@@ -26,6 +26,8 @@ content will be available soon.*
 
 ## [Projects](projects_index.md)
 
+* Bipartite Graphs for Archaeological Assemblage Networks (Part I)
+
 * Mapping linguistic psychometrics using NLP/NLU and graph community detection
 
 * Semantic modeling of paper topics using topological overlap matrix (TOM)
