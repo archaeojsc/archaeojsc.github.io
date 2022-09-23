@@ -59,42 +59,47 @@ prov_adj_jacc <-
     diag = FALSE
   ) ^ 2)
 
+prov_adj_cos <- cosine(t(assemblages_inc))
+
 ## Find density of non-zero similarity scores -----------------------------
 plot(density(c(prov_adj_jacc[prov_adj_jacc > 0])))
 
+plot(density(c(prov_adj_cos[prov_adj_cos > 0])))
+
 ## Find threshold for strongly similar nodes ------------------------------
-prov_sim_thresh <- quantile(c(prov_adj_jacc[prov_adj_jacc > 0]), 0.95)
+prov_sim_thresh <- quantile(c(prov_adj_cos[prov_adj_cos > 0]), .95)
 
 ## Binarize by threshold value --------------------------------------------
 prov_adj_jacc_thresh <-
   ifelse(prov_adj_jacc < prov_sim_thresh, 0, prov_adj_jacc)
 
+prov_adj_cos_thresh <-
+  ifelse(prov_adj_cos < prov_sim_thresh, 0, prov_adj_cos)
+
+
 # Create provenience graph ------------------------------------------------
 G_prov <- graph_from_adjacency_matrix(
-  prov_adj_jacc,
+  prov_adj_cos_thresh,
   mode = "undirected",
   weighted = TRUE,
   diag = FALSE
 )
 
-plot(
-  G_prov,
-  vertex.size = 5,
-  vertex.label = NA,
-  layout = layout.fruchterman.reingold
-)
+G_prov %>% ggraph(layout = "fr") +
+  geom_edge_link(aes(alpha = weight)) +
+  geom_node_point(color = "green", size = 2)
+
+  
 
 ## Find and remove isolated nodes -----------------------------------------
 G_prov_isolates <- which(degree(G_prov) == 0)
 
 G_prov_conn <- delete.vertices(G_prov, G_prov_isolates)
 
-plot(
-  G_prov_conn,
-  vertex.size = 5,
-  vertex.label = NA,
-  layout = layout_nicely
-)
+G_prov_conn %>% ggraph(layout = "fr") +
+  geom_edge_link(aes(alpha = weight)) +
+  geom_node_point(color = "green", size = 2)
+
 
 
 # Project graph of artifacts ----------------------------------------------
