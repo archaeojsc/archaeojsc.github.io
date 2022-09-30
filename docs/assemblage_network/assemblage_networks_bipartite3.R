@@ -1,8 +1,11 @@
 require(tidyverse)
 require(igraph)
 require(ggraph)
+<<<<<<< HEAD
 require(ade4) # for jaccard similarity index
 require(lsa) #for cosine similarity index
+=======
+>>>>>>> 0b4f2ffb605aa241d13ea0c936232511ae44f392
 
 # Import data from file ---------------------------------------------------
 
