@@ -1,11 +1,8 @@
 require(tidyverse)
 require(igraph)
 require(ggraph)
-<<<<<<< HEAD
 require(ade4) # for jaccard similarity index
 require(lsa) #for cosine similarity index
-=======
->>>>>>> 0b4f2ffb605aa241d13ea0c936232511ae44f392
 
 # Import data from file ---------------------------------------------------
 
@@ -42,25 +39,22 @@ g_assemblages_inc <- as_incidence_matrix(g_assemblages_bpg)
 g_assemblages_proj <-
   bipartite_projection(g_assemblages_bpg, multiplicity = TRUE)
 
-g_assemblage_prov <- assemblage_projections$proj1
+g_assemblage_prov <- g_assemblages_proj$proj1
 
-g_assemblage_artifact <- assemblage_projections$proj2
+g_assemblage_artifact <- g_assemblages_proj$proj2
 
-plot(
-  g_assemblage_prov,
-  vertex.size = 5,
-  vertex.label = NA,
-  layout = layout.fruchterman.reingold,
-  main = "Assmeblage Provenience Network"
-)
+g_assemblage_prov %>%
+  ggraph(layout = "fr") +
+  geom_edge_link(color = "gray", aes(alpha = weight)) +
+  geom_node_point(color = "green", size = 2) +
+  ggtitle("Network of Proveniences")
 
-plot(
-  g_assemblage_artifact,
-  vertex.size = 5,
-  vertex.label = NA,
-  layout = layout.fruchterman.reingold,
-  main = "Assmeblage Artifact Network"
-)
+g_assemblage_artifact %>%
+  ggraph(layout = "fr") +
+  geom_edge_link(color = "gray", aes(alpha = weight)) +
+  geom_node_point(color = "blue", size = 2) +
+  ggtitle("Network of Artifact Types")
+
 
 # Project one-mode graphs, Szymkiewicz-Simpson -----------------------------
 
@@ -84,7 +78,9 @@ overlap_coef <- function(x, y = NULL) {
 }
 
 prov_adj_ssoc <- overlap_coef(t(g_assemblages_inc))
+
 artifact_adj_ssoc <- overlap_coef(g_assemblages_inc)
+
 
 # Project one-mode graphs, Sorenson-Dice -----------------------------------
 
@@ -105,4 +101,5 @@ soren_dice_sim <- function(x, y = NULL) {
 }
 
 prov_adj_sdsim <- soren_dice_sim(t(g_assemblages_inc))
+
 artifact_adj_sdsim <- soren_dice_sim(g_assemblages_inc)
