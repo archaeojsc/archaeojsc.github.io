@@ -212,7 +212,7 @@ tom_adjacency_sim <- function(adj_mat) {
   
   tom_adj <- (l_mat + adj_mat) / (k_min + 1 - adj_mat)
   
-  diag(tom_adj) <- 0
+  diag(tom_adj) <- 1
   
   dimnames(tom_adj) <- list(colnames(adj_mat), colnames(adj_mat))
   
