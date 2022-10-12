@@ -1,0 +1,32 @@
+---
+title: "Similarity Measures for Graph Adjacency with Sets"
+author: "James Scott Cardinal"
+date: \today
+format: html
+editor: visual
+editor_options: 
+  chunk_output_type: inline
+bibliography: references.bib
+---
+
+In my last installment ([Part I](https://medium.com/p/648a2f20d389)), I introduced you to a bit about the process of analyzing an archaeological site with data science. I talked about the frustratingly complex nature of "Old Things in Space" and how the network of artifacts and locations constitute a bipartite graph.
+
+As we worked through the process of creating a two-mode graph and projecting it into its constituent one-mode graphs, however, we ended on something of a cliff-hanger... *everything* ended up connected to *everything else*!
+
+Well, sort of. I have to confess that I callously and intentionally lead you, the reader, down a primrose path straight into a carefully crafted cul-de-sac \[insert mad scientist laugh *here*\].
+
+All part of my cunning plan, of course, to get to the much more interesting topic of thinking about just what it means for two things to be "similar" and similarity metrics for *sets.*
+
+In my defense, I did briefly mention that `igraph` doesn't really have the best of tools to actually *do* much of anything interesting with bipartite graphs. The problem is that the method it uses in its `bipartite_projection` simply sums the pairwise occurrences in the incidence matrix. That, as it turns out, is less than useful in a lot of cases.
+
+For those just joining in, this is the Part II of a series covering:
+
+-   [Part I](https://medium.com/p/648a2f20d389) -- Creating and exploring bipartite and one-mode graphs,
+
+-   Part II -- Similarity measures for sets and graph adjacency,
+
+-   Part III -- Graph structure and community detection methods,
+
+-   Part IV -- Geo-spatial networks
+
+# Introduction
