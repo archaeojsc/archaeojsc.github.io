@@ -13,7 +13,9 @@ In my last installment ([Part I](https://medium.com/p/648a2f20d389)), I introduc
 
 As we worked through the process of creating a two-mode graph and projecting it into its constituent one-mode graphs, however, we ended on something of a cliff-hanger... *everything* ended up connected to *everything else*!
 
-Well, sort of. I have to confess that I callously and intentionally lead you, the reader, down a primrose path straight into a carefully crafted cul-de-sac \[insert mad scientist laugh *here*\].
+Well, sort of. I have to confess that I intentionally lead you down a primrose path straight into a carefully crafted cul-de-sac \[insert mad scientist laugh *here*\].
+
+![Photo by [Gabriel Soto](https://medium.com/r/?url=https%3A%2F%2Funsplash.com%2F%40gabriel_soto%3Futm_source%3Dmedium%26utm_medium%3Dreferral) on [Unsplash](https://medium.com/r/?url=https%3A%2F%2Funsplash.com%3Futm_source%3Dmedium%26utm_medium%3Dreferral)](DeadEndSign.jpg){fig-alt="\"Dead End\" sign looming"}
 
 All part of my cunning plan, of course, to get to the much more interesting topic of thinking about just what it means for two things to be "similar" and similarity metrics for *sets.*
 
@@ -28,5 +30,7 @@ For those just joining in, this is the Part II of a series covering:
 -   Part III -- Graph structure and community detection methods,
 
 -   Part IV -- Geo-spatial networks
+
+I'll continue using R for the coding, but again all of this could be done with Python just as easily.
 
 # Introduction
