@@ -7,6 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="James Scott Cardinal">
+<meta name="dcterms.date" content="2021-10-14">
 
 <title>Similarity Measures for Graph Adjacency with Sets</title>
 <style>
@@ -58,7 +59,7 @@ ul.task-list{list-style: none;}
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">Invalid Date</p>
+      <p class="date">October 14, 2021</p>
     </div>
   </div>
     
@@ -67,9 +68,16 @@ ul.task-list{list-style: none;}
 
 </header>
 
+<p><img src="archaeo_DS_mine.png" class="img-fluid"></p>
 <p>In my last installment (<a href="https://medium.com/p/648a2f20d389">Part I</a>), I introduced you to a bit about the process of analyzing an archaeological site with data science. I talked about the frustratingly complex nature of “Old Things in Space” and how the network of artifacts and locations constitute a bipartite graph.</p>
 <p>As we worked through the process of creating a two-mode graph and projecting it into its constituent one-mode graphs, however, we ended on something of a cliff-hanger… <em>everything</em> ended up connected to <em>everything else</em>!</p>
-<p>Well, sort of. I have to confess that I callously and intentionally lead you, the reader, down a primrose path straight into a carefully crafted cul-de-sac [insert mad scientist laugh <em>here</em>].</p>
+<p>Well, sort of. I have to confess that I intentionally lead you down a primrose path straight into a carefully crafted cul-de-sac [insert mad scientist laugh <em>here</em>].</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="DeadEndSign.jpg" class="img-fluid figure-img" alt="&quot;Dead End&quot; sign looming"></p>
+<p></p><figcaption class="figure-caption">Photo by <a href="https://medium.com/r/?url=https%3A%2F%2Funsplash.com%2F%40gabriel_soto%3Futm_source%3Dmedium%26utm_medium%3Dreferral">Gabriel Soto</a> on <a href="https://medium.com/r/?url=https%3A%2F%2Funsplash.com%3Futm_source%3Dmedium%26utm_medium%3Dreferral">Unsplash</a></figcaption><p></p>
+</figure>
+</div>
 <p>All part of my cunning plan, of course, to get to the much more interesting topic of thinking about just what it means for two things to be “similar” and similarity metrics for <em>sets.</em></p>
 <p>In my defense, I did briefly mention that <code>igraph</code> doesn’t really have the best of tools to actually <em>do</em> much of anything interesting with bipartite graphs. The problem is that the method it uses in its <code>bipartite_projection</code> simply sums the pairwise occurrences in the incidence matrix. That, as it turns out, is less than useful in a lot of cases.</p>
 <p>For those just joining in, this is the Part II of a series covering:</p>
@@ -79,6 +87,7 @@ ul.task-list{list-style: none;}
 <li><p>Part III – Graph structure and community detection methods,</p></li>
 <li><p>Part IV – Geo-spatial networks</p></li>
 </ul>
+<p>I’ll continue using R for the coding, but again all of this could be done with Python just as easily.</p>
 <section id="introduction" class="level1">
 <h1>Introduction</h1>
 </section>

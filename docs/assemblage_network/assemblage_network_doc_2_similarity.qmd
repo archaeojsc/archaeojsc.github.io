@@ -1,7 +1,7 @@
 ---
 title: "Similarity Measures for Graph Adjacency with Sets"
 author: "James Scott Cardinal"
-date: \today
+date: 10/14/2021
 format: html
 editor: visual
 editor_options: 
@@ -9,13 +9,15 @@ editor_options:
 bibliography: references.bib
 ---
 
+![](archaeo_DS_mine.png)
+
 In my last installment ([Part I](https://medium.com/p/648a2f20d389)), I introduced you to a bit about the process of analyzing an archaeological site with data science. I talked about the frustratingly complex nature of "Old Things in Space" and how the network of artifacts and locations constitute a bipartite graph.
 
 As we worked through the process of creating a two-mode graph and projecting it into its constituent one-mode graphs, however, we ended on something of a cliff-hanger... *everything* ended up connected to *everything else*!
 
 Well, sort of. I have to confess that I intentionally lead you down a primrose path straight into a carefully crafted cul-de-sac \[insert mad scientist laugh *here*\].
 
-![Photo by [Gabriel Soto](https://medium.com/r/?url=https%3A%2F%2Funsplash.com%2F%40gabriel_soto%3Futm_source%3Dmedium%26utm_medium%3Dreferral) on [Unsplash](https://medium.com/r/?url=https%3A%2F%2Funsplash.com%3Futm_source%3Dmedium%26utm_medium%3Dreferral)](DeadEndSign.jpg){fig-alt="\"Dead End\" sign looming"}
+<!-- ![Photo by [Gabriel Soto](https://medium.com/r/?url=https%3A%2F%2Funsplash.com%2F%40gabriel_soto%3Futm_source%3Dmedium%26utm_medium%3Dreferral) on [Unsplash](https://medium.com/r/?url=https%3A%2F%2Funsplash.com%3Futm_source%3Dmedium%26utm_medium%3Dreferral)](DeadEndSign.jpg){fig-alt="\"Dead End\" sign looming"} -->
 
 All part of my cunning plan, of course, to get to the much more interesting topic of thinking about just what it means for two things to be "similar" and similarity metrics for *sets.*
 
@@ -34,3 +36,5 @@ For those just joining in, this is the Part II of a series covering:
 I'll continue using R for the coding, but again all of this could be done with Python just as easily.
 
 # Introduction
+
+Before we get into the weeds of metrics, methods, and combinatorics let's stop to think for a moment about just what we mean when we say that two things are *similar*. In general, we refer to things as *similar* when they are neither the same nor entirely different -- i.e., similar things are alike-*ish*. Similarity means that some measure of shared features or attributes suggesting *association* but not necessarily commonality or identity.
