@@ -37,4 +37,6 @@ I'll continue using R for the coding, but again all of this could be done with P
 
 # Introduction
 
-Before we get into the weeds of metrics, methods, and combinatorics let's stop to think for a moment about just what we mean when we say that two things are *similar*. In general, we refer to things as *similar* when they are neither the same nor entirely different -- i.e., similar things are alike-*ish*. Similarity means that some measure of shared features or attributes suggesting *association* but not necessarily commonality or identity.
+Before we get into the weeds of metrics, methods, and combinatorics let's stop to think for a moment about just what we mean when we say that two things are *similar*.
+
+In general, we refer to things as *similar* when they are neither the quite the same nor are they entirely different. Similar things are alike-*ish*. It means that some measure of shared features or attributes is suggesting *association* but not necessarily *commonality* or *identity*. It denotes a resemblance or correspondence, but there's a certain fuzziness about it -- i.e., similarity implies a subjective or qualitative assessment.
