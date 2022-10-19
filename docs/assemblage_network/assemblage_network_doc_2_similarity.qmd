@@ -43,8 +43,6 @@ Before we get into the weeds of metrics, methods, and combinatorics (i.e., the m
 
 In general, we refer to things as *similar* when they are neither the quite the same nor are they entirely different. Similar things are alike-*ish*. It means that some measure of shared features or attributes is suggesting *association* but not necessarily *commonality* or *identity*. It denotes a resemblance or correspondence, but there's a certain fuzziness about it -- i.e., similarity implies a subjective or qualitative assessment.
 
-Our goal, then, is twofold. Firstly, we need to determine what set similarity metric most closely reflects the *relationship* between attributes. Secondly, we have to determine an appropriate method for determining the *threshold* of similarity between entities. In other words, we need to choose our criteria for *resemblance* and set the *limits* of what is (or isn't) considered similar.
+Our goal, then, is twofold. Firstly, we need to determine what set similarity metric most closely reflects the *relationship* between set elements. Secondly, we have to determine an appropriate method for determining the *threshold* of similarity between those entities. In other words, we need to choose our criteria for *resemblance* and set the *limits* of what is (or isn't) considered similar between our sets.
 
 ## Sets and Similarity
-
-
