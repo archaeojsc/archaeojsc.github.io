@@ -17,6 +17,69 @@ span.underline{text-decoration: underline;}
 div.column{display: inline-block; vertical-align: top; width: 50%;}
 div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
 ul.task-list{list-style: none;}
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
 </style>
 
 
@@ -71,11 +134,9 @@ ul.task-list{list-style: none;}
 <p><img src="archaeo_DS_mine.png" class="img-fluid"></p>
 <p>In my last installment (<a href="https://medium.com/p/648a2f20d389">Part I</a>), I introduced you to a bit about the process of analyzing an archaeological site with data science. I talked about the frustratingly complex nature of “Old Things in Space” and how the network of artifacts and locations constitute a bipartite graph.</p>
 <p>As we worked through the process of creating a two-mode graph and projecting it into its constituent one-mode graphs, however, we ended on something of a cliff-hanger… <em>everything</em> ended up connected to <em>everything else</em>!</p>
-<p>Well, sort of. I have to confess that I intentionally lead you down a primrose path straight into a carefully crafted cul-de-sac [insert mad scientist laugh <em>here</em>].</p>
-<!-- ![Photo by [Gabriel Soto](https://medium.com/r/?url=https%3A%2F%2Funsplash.com%2F%40gabriel_soto%3Futm_source%3Dmedium%26utm_medium%3Dreferral) on [Unsplash](https://medium.com/r/?url=https%3A%2F%2Funsplash.com%3Futm_source%3Dmedium%26utm_medium%3Dreferral)](DeadEndSign.jpg){fig-alt="\"Dead End\" sign looming"} -->
-<p>All part of my cunning plan, of course, to get to the much more interesting topic of thinking about just what it means for two things to be “similar” and similarity metrics for <em>sets.</em></p>
+<p>Well, sort of. I have to confess that I intentionally lead you down a primrose path straight into a carefully crafted cul-de-sac. All part of my cunning plan, of course, to get to the much more interesting topic of thinking about just what it means for two things to be “similar” and similarity metrics for <em>sets.</em></p>
 <p>In my defense, I did briefly mention that <code>igraph</code> doesn’t really have the best of tools to actually <em>do</em> much of anything interesting with bipartite graphs. The problem is that the method it uses in its <code>bipartite_projection</code> simply sums the pairwise occurrences in the incidence matrix. That, as it turns out, is less than useful in a lot of cases.</p>
-<p>Instead, we need to explore some more robust methods for evaluating <em>similarity</em> between sets. Unlike numerical methods of calculating correlation or distance, there are some conceptual peculiarities when comparing correspondence and similartity between sets that need to be considered. In this article, we’ll look at some of the most commonly used set-based similarity metrics and reason through <em>how</em> to choose the appropriate metric for our goals.</p>
+<p>Instead, we need to explore some more robust methods for evaluating <em>similarity</em> between sets. Unlike numerical methods of calculating correlation or distance, there are some conceptual peculiarities when comparing correspondence and similarity between sets that need to be considered. In this article, we’ll look at some of the most commonly used set-based similarity metrics and reason through <em>how</em> to choose the appropriate metric for our goals.</p>
 <p>For those just joining in, this is the Part II of a series in archaeological data science covering:</p>
 <ul>
 <li><p><a href="https://medium.com/p/648a2f20d389">Part I</a> – Creating and exploring bipartite and one-mode graphs,</p></li>
@@ -88,10 +149,82 @@ ul.task-list{list-style: none;}
 <h1>Introduction</h1>
 <p>Before we get into the weeds of metrics, methods, and combinatorics (i.e., the mathematics of <em>sets</em>) let’s stop to think for a moment about just what we mean when we say that two things are <em>similar</em>.</p>
 <p>In general, we refer to things as <em>similar</em> when they are neither the quite the same nor are they entirely different. Similar things are alike-<em>ish</em>. It means that some measure of shared features or attributes is suggesting <em>association</em> but not necessarily <em>commonality</em> or <em>identity</em>. It denotes a resemblance or correspondence, but there’s a certain fuzziness about it – i.e., similarity implies a subjective or qualitative assessment.</p>
-<p>Our goal, then, is twofold. Firstly, we need to determine what set similarity metric most closely reflects the <em>relationship</em> between attributes. Secondly, we have to determine an appropriate method for determining the <em>threshold</em> of similarity between entities. In other words, we need to choose our criteria for <em>resemblance</em> and set the <em>limits</em> of what is (or isn’t) considered similar.</p>
+<p>Our goal, then, is twofold. Firstly, we need to determine what set similarity metric most closely reflects the <em>relationship</em> between set elements. Secondly, we have to determine an appropriate method for determining the <em>threshold</em> of similarity between those entities. In other words, we need to choose our criteria for <em>resemblance</em> and set the <em>limits</em> of what is (or isn’t) considered similar between our sets.</p>
 <section id="sets-and-similarity" class="level2">
 <h2 class="anchored" data-anchor-id="sets-and-similarity">Sets and Similarity</h2>
+<p>Unlike real-valued vector spaces in which distance or similarity can be readily calculated, sets consist of an un-ordered collection of unique members or elements. Those member elements can be anything – e.g., numbers, letters, words, objects, categories – so there isn’t always an obvious numerical solution such as vector norms or coordinates that can be used for comparison of elements.</p>
+<p>Instead, we have to compare the membership of elements between sets. More specifically, we compare the size or <em>cardinality</em> of certain attributes of or operation on the sets such as their intersections and unions. Luckily, there are numerous metrics available for comparing similarity between sets. For our purposes, I will discuss only a few that are most common:</p>
+<ul>
+<li>Overlap or Szymkiewicz-Simpson coefficient</li>
+<li>Jaccard similarity coefficient (a.k.a. Tanimoto coefficient)</li>
+<li>Sørensen–Dice coefficient</li>
+</ul>
+<p>Each of these similarity measures was derived specifically to address the peculiarities of dealing with sets. The difference between them is just the way in which they weight common elements (i.e., intersections) against differences.</p>
+<p>It is important to consider, however, exactly what relationships between sets you are trying to capture before choosing a method. If your samples all contain approximately the same number of elements, you might choose differently than if each sample has widely different numbers of members. How likely are complete subsets, and are those important to capture? Are differences more important than commonalities, or the other way around?</p>
+<p>As with any data analysis, it’s necessary to explicitly consider your <em>methodology</em> as well as your methods. The rationale and justification for the selection of methods is a critical part of the process. That is, after all, why we call it data <em>science</em>.</p>
 </section>
+</section>
+<section id="bipartite-projections-by-similarity" class="level1">
+<h1>Bipartite Projections by Similarity</h1>
+<p>First, lets go back and recreate our bipartite graph of sampling locations (called “proveniences”) and artifact types found at those locations like we did in <a href="https://medium.com/p/648a2f20d389">Part I</a>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">require</span>(tidyverse)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">require</span>(igraph)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">require</span>(ggraph)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Read in edgelist into data frame</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>dat <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"Catalog_SiteA.csv"</span>,</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>                <span class="at">col_select =</span> <span class="fu">c</span>(LEVEL_ID, CODE))</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Create graph</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>g_assemblages_bpg <span class="ot">&lt;-</span></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">graph_from_data_frame</span>(<span class="fu">unique.data.frame</span>(dat),</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>                        <span class="at">directed =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="co"># Assign bipartite node types</span></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a><span class="fu">V</span>(g_assemblages_bpg)<span class="sc">$</span>type <span class="ot">&lt;-</span></span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">bipartite_mapping</span>(g_assemblages_bpg)<span class="sc">$</span>type</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Again, we have our graph of connections between artifact types and locations, and can already see some rough grouping in each of the vertex types (one type at the top and one at the bottom of the plot). The graph is densely connected, with many nodes and edges.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot bipartite graph</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>g_assemblages_bpg <span class="sc">%&gt;%</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggraph</span>(<span class="at">layout =</span> <span class="st">"bipartite"</span>) <span class="sc">+</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_edge_link</span>(<span class="at">color =</span> <span class="st">"gray"</span>, <span class="at">alpha =</span> <span class="fl">0.25</span>) <span class="sc">+</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_node_point</span>(<span class="fu">aes</span>(<span class="at">color =</span> type), <span class="at">size =</span> <span class="dv">2</span>) <span class="sc">+</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_manual</span>(</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">values =</span> <span class="fu">c</span>(<span class="st">"green"</span>, <span class="st">"blue"</span>),</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">name =</span> <span class="st">"Node Type"</span>,</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">breaks =</span> <span class="fu">c</span>(<span class="cn">FALSE</span>, <span class="cn">TRUE</span>),</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">"Provenience"</span>, <span class="st">"Artifact"</span>)</span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="assemblage_network_doc_2_similarity_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid figure-img" width="768"></p>
+<p></p><figcaption class="figure-caption">Bipartite graph of artifact-provenience connections.</figcaption><p></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Now we retrieve the binary incidence matrix of proveniences and artifact types from the graph, which we will use as the data for our similarity measures. Remember, we are only considering presence (<code>1</code>) or absence (<code>0</code>) of an artifact type at each provenience.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>g_assemblages_bpg_inc <span class="ot">&lt;-</span> <span class="fu">as_incidence_matrix</span>(g_assemblages_bpg)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="co"># View the first few rows and columns</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>g_assemblages_bpg_inc[<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>, <span class="dv">1</span><span class="sc">:</span><span class="dv">15</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>     UDB TOOT CS OCH BNUT UIS TWN UWN MCN UCN CWN BLT CAP SCR TACK
+1726   1    1  1   0    1   1   0   1   1   1   1   1   0   1    1
+1725   1    1  0   1    0   1   1   0   1   1   0   0   1   0    1
+1306   0    0  0   1    0   1   0   1   1   1   1   0   0   0    1
+1307   0    0  0   1    0   1   0   0   0   0   1   0   0   0    0
+1737   1    0  0   0    1   1   0   0   1   1   1   1   0   1    0</code></pre>
+</div>
+</div>
+<p>Depending on which way we view our incidence matrix, we now have a collection of the sets of artifact types found at each provenience (by row) or sets of proveniences at which each artifact type was found (by column).</p>
+<p>The goal is to find a partitioning of this system of sets such that each subset of provenience contains a coherent collection of artifact types (i.e., what archaeologists call an <em>assemblage</em>) and each subset of artifact types are found together in a coherent spatial collection of proveniences (we call those a <em>context</em>).</p>
+<p>What we’re trying to do in this article is to look at the ways we compute that “coherence” within the projected modes of our bipartite graph. In order to project our bipartite node types into two separate one-mode graphs, we want to evaluate similarity measures between pairwise comparisons of these sets.</p>
 </section>
 
 </main>

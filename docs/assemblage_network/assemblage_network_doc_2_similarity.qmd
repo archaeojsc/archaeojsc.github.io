@@ -53,8 +53,72 @@ Instead, we have to compare the membership of elements between sets. More specif
 
 Each of these similarity measures was derived specifically to address the peculiarities of dealing with sets. The difference between them is just the way in which they weight common elements (i.e., intersections) against differences.
 
-It is important to consider, however, exactly what relationships between sets you are trying to capture before choosing a method. If your samples all contain approximately the same number of elements, you might choose differently than if each sample has widely different numbers of members. How likely are complete subsets, and are those important to capture? Are differences more imporant than commonalities, or the other way around?
+It is important to consider, however, exactly what relationships between sets you are trying to capture before choosing a method. If your samples all contain approximately the same number of elements, you might choose differently than if each sample has widely different numbers of members. How likely are complete subsets, and are those important to capture? Are differences more important than commonalities, or the other way around?
 
 As with any data analysis, it's necessary to explicitly consider your *methodology* as well as your methods. The rationale and justification for the selection of methods is a critical part of the process. That is, after all, why we call it data *science*.
 
-# Bipartite Projections by Similarity
+## Revisiting Bipartite Graphs and Projections
+
+First, lets go back and recreate our bipartite graph of sampling locations (called "proveniences") and artifact types found at those locations like we did in [Part I](https://medium.com/p/648a2f20d389).
+
+```{r, message=FALSE}
+
+require(tidyverse)
+require(igraph)
+require(ggraph)
+
+# Read in edgelist into data frame
+dat <- read_csv("Catalog_SiteA.csv",
+                col_select = c(LEVEL_ID, CODE))
+
+# Create graph
+g_assemblages_bpg <-
+  graph_from_data_frame(unique.data.frame(dat),
+                        directed = FALSE)
+
+# Assign bipartite node types
+V(g_assemblages_bpg)$type <-
+  bipartite_mapping(g_assemblages_bpg)$type
+
+```
+
+Again, we have our graph of connections between artifact types and locations, and can already see some rough grouping in each of the vertex types (one type at the top and one at the bottom of the plot). The graph is densely connected, with many nodes and edges.
+
+```{r}
+#| fig-width: 8
+#| fig-cap: "Bipartite graph of artifact-provenience connections."
+
+# Plot bipartite graph
+g_assemblages_bpg %>%
+  ggraph(layout = "bipartite") +
+  geom_edge_link(color = "gray", alpha = 0.25) +
+  geom_node_point(aes(color = type), size = 2) +
+  scale_color_manual(
+    values = c("green", "blue"),
+    name = "Node Type",
+    breaks = c(FALSE, TRUE),
+    labels = c("Provenience", "Artifact")
+  )
+
+```
+
+Now we retrieve the binary incidence matrix of proveniences and artifact types from the graph, which we will use as the data for our similarity measures. Remember, we are only considering presence (`1`) or absence (`0`) of an artifact type at each provenience.
+
+```{r}
+
+g_assemblages_bpg_inc <- as_incidence_matrix(g_assemblages_bpg)
+
+# View the first few rows and columns
+g_assemblages_bpg_inc[1:5, 1:15]
+
+```
+
+Depending on which way we view our incidence matrix, we now have a collection of the sets of artifact types found at each provenience (by row) or sets of proveniences at which each artifact type was found (by column).
+
+The goal is to find a partitioning of this system of sets such that each subset of provenience contains a coherent collection of artifact types (i.e., what archaeologists call an *assemblage*) and each subset of artifact types are found together in a coherent spatial collection of proveniences (we call those a *context*).
+
+What we're trying to do now is to look at the ways we compute that "coherence" within the projected modes of our bipartite graph. In order to project our bipartite node types into two separate one-mode graphs, we want to evaluate similarity measures between pairwise comparisons of these sets.
+
+We found out in the last installment ([Part I](https://medium.com/p/648a2f20d389)) that the `bipartite_projection` method in `igraph` only sums the number of pairwise coincidences. That means, though, that even one shared element between sets is enough to link them. It doesn't, at all, factor in how many elements of the sets are *different* or the *total* number of elements being considered. In the end, every node in each projection was linked to almost every other node with no good way to evaluate the *strength* of those connections. Not particularly useful.
+
+# Bipartite Projection by Similarity
