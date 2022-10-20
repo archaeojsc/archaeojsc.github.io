@@ -15,15 +15,11 @@ In my last installment ([Part I](https://medium.com/p/648a2f20d389)), I introduc
 
 As we worked through the process of creating a two-mode graph and projecting it into its constituent one-mode graphs, however, we ended on something of a cliff-hanger... *everything* ended up connected to *everything else*!
 
-Well, sort of. I have to confess that I intentionally lead you down a primrose path straight into a carefully crafted cul-de-sac \[insert mad scientist laugh *here*\].
-
-<!-- ![Photo by [Gabriel Soto](https://medium.com/r/?url=https%3A%2F%2Funsplash.com%2F%40gabriel_soto%3Futm_source%3Dmedium%26utm_medium%3Dreferral) on [Unsplash](https://medium.com/r/?url=https%3A%2F%2Funsplash.com%3Futm_source%3Dmedium%26utm_medium%3Dreferral)](DeadEndSign.jpg){fig-alt="\"Dead End\" sign looming"} -->
-
-All part of my cunning plan, of course, to get to the much more interesting topic of thinking about just what it means for two things to be "similar" and similarity metrics for *sets.*
+Well, sort of. I have to confess that I intentionally lead you down a primrose path straight into a carefully crafted cul-de-sac. All part of my cunning plan, of course, to get to the much more interesting topic of thinking about just what it means for two things to be "similar" and similarity metrics for *sets.*
 
 In my defense, I did briefly mention that `igraph` doesn't really have the best of tools to actually *do* much of anything interesting with bipartite graphs. The problem is that the method it uses in its `bipartite_projection` simply sums the pairwise occurrences in the incidence matrix. That, as it turns out, is less than useful in a lot of cases.
 
-Instead, we need to explore some more robust methods for evaluating *similarity* between sets. Unlike numerical methods of calculating correlation or distance, there are some conceptual peculiarities when comparing correspondence and similartity between sets that need to be considered. In this article, we'll look at some of the most commonly used set-based similarity metrics and reason through *how* to choose the appropriate metric for our goals.
+Instead, we need to explore some more robust methods for evaluating *similarity* between sets. Unlike numerical methods of calculating correlation or distance, there are some conceptual peculiarities when comparing correspondence and similarity between sets that need to be considered. In this article, we'll look at some of the most commonly used set-based similarity metrics and reason through *how* to choose the appropriate metric for our goals.
 
 For those just joining in, this is the Part II of a series in archaeological data science covering:
 
@@ -46,3 +42,19 @@ In general, we refer to things as *similar* when they are neither the quite the 
 Our goal, then, is twofold. Firstly, we need to determine what set similarity metric most closely reflects the *relationship* between set elements. Secondly, we have to determine an appropriate method for determining the *threshold* of similarity between those entities. In other words, we need to choose our criteria for *resemblance* and set the *limits* of what is (or isn't) considered similar between our sets.
 
 ## Sets and Similarity
+
+Unlike real-valued vector spaces in which distance or similarity can be readily calculated, sets consist of an un-ordered collection of unique members or elements. Those member elements can be anything -- e.g., numbers, letters, words, objects, categories -- so there isn't always an obvious numerical solution such as vector norms or coordinates that can be used for comparison of elements.
+
+Instead, we have to compare the membership of elements between sets. More specifically, we compare the size or *cardinality* of certain attributes of or operation on the sets such as their intersections and unions. Luckily, there are numerous metrics available for comparing similarity between sets. For our purposes, I will discuss only a few that are most common:
+
+-   Overlap or Szymkiewicz-Simpson coefficient
+-   Jaccard similarity coefficient (a.k.a. Tanimoto coefficient)
+-   Sørensen--Dice coefficient
+
+Each of these similarity measures was derived specifically to address the peculiarities of dealing with sets. The difference between them is just the way in which they weight common elements (i.e., intersections) against differences.
+
+It is important to consider, however, exactly what relationships between sets you are trying to capture before choosing a method. If your samples all contain approximately the same number of elements, you might choose differently than if each sample has widely different numbers of members. How likely are complete subsets, and are those important to capture? Are differences more imporant than commonalities, or the other way around?
+
+As with any data analysis, it's necessary to explicitly consider your *methodology* as well as your methods. The rationale and justification for the selection of methods is a critical part of the process. That is, after all, why we call it data *science*.
+
+# Bipartite Projections by Similarity

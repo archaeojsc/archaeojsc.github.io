@@ -46,11 +46,11 @@ g_assemblages_proj_prov <- g_assemblages_proj$proj1
 
 g_assemblages_proj_artifact <- g_assemblages_proj$proj2
 
-# g_assemblages_proj_prov %>%
-#   ggraph(layout = "fr") +
-#   geom_edge_link(color = "gray", aes(alpha = weight)) +
-#   geom_node_point(color = "green", size = 2) +
-#   ggtitle("Network of Proveniences")
+g_assemblages_proj_prov %>%
+  ggraph(layout = "fr") +
+  geom_edge_link(color = "gray", aes(alpha = weight)) +
+  geom_node_point(color = "green", size = 2) +
+  ggtitle("Network of Proveniences")
 
 # g_assemblages_proj_artifact %>%
 #   ggraph(layout = "fr") +
@@ -197,11 +197,11 @@ g_assemblages_proj_prov_sd <-
                               weighted = TRUE,
                               diag = FALSE)
 
-# g_assemblages_proj_prov_sd %>%
-#   ggraph(layout = "kk") +
-#   geom_edge_link(color = "gray", aes(alpha = weight)) +
-#   geom_node_point(color = "green", size = 2) +
-#   ggtitle("Network of Proveniences")
+g_assemblages_proj_prov_sd %>%
+  ggraph(layout = "kk") +
+  geom_edge_link(color = "gray", aes(alpha = weight)) +
+  geom_node_point(color = "green", size = 2) +
+  ggtitle("Network of Proveniences")
 
 ggplot(data = data.frame(x = degree(g_assemblages_proj_prov_sd)), aes(x = x)) +
   geom_density(color = "green") +
