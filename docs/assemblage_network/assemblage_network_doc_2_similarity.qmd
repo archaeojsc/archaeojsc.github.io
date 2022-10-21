@@ -122,15 +122,15 @@ What we're trying to do now is to look at the ways we compute that "coherence" w
 
 ## Archaeological Objectives
 
-I've introduced you to a couple archaeological concepts now, in addition to a few concepts about sets and graphs. Now I'd like to pause to explain why we're so interested in finding these subsets and partitions. You see, archaeologists don't really interpret artifacts *per se*.
+I've introduced you to a couple archaeological concepts, as well as a few concepts about sets and graphs. Now I'd like to pause to explain why we're so interested in finding these subsets and partitions. You see, archaeologists don't really interpret artifacts *per se*.
 
 We're interested in interpreting human activities across time and space, which gives us a window into far more abstract concepts like *behavior* or *culture*. The way we do that, since we don't have a time machine to go back and observe what people were actually doing, is by looking for patterns of associations between the physical remnants (i.e., the debris or *trash*) left behind by those activities. Weird, I know, but it works surprisingly well.
 
-Just think for a moment about what you're trash might show about *your* daily behavior!
+Just think for a moment about what your trash might show about *your* daily behavior!
 
 Anyway, the reason we're so interested in finding groupings in artifacts (the things) and provenience (the location in 3-dimensional space) is that those are just the samples we collect. We want to know about the *populations* from which those samples are drawn. In this case, those populations are the *assemblages* and *contexts*. We want to see if we can differentiate one assemblage or context from another, then see what patterns that reveals.
 
-For example, does an identified assemblage of artifacts have a specific range of dates so that it uniquely identifies *when* or *how long* a site was occupied? Does one assemblage relate to domestic activities while another reflects economic activities, and are those spaces (i.e., their contexts) separate or comingled? If the site was occupied multiple times or by multiple households, were they continuous or intermittent? Different assemblages might be mixed into the same context if they were continuous.
+For example, does an identified assemblage of artifacts have a specific range of dates so that it uniquely identifies *when* or *how long* a site was occupied? Does one assemblage relate to domestic activities while another reflects economic activities, and are those spaces (i.e., their contexts) separate or commingled? If the site was occupied multiple times or by multiple households, were they continuous or intermittent? Different assemblages might be mixed into the same context if they were continuous.
 
 So many questions, but parsing the artifact and provenience data into assemblages and contexts is the first step. We want to be sure that our analytic methods are appropriate.
 
@@ -155,19 +155,24 @@ $$
 For example, say we have two sets: $X=\{a, b, c\}$ and $Y = \{b, c, d, e, f\}$. Their intersection is $X \cap Y = \{b, c\}$ and the sets have cardinality $|X|=3$ and $|Y| = 5$. Their overlap coefficient would be:
 
 $$
-Overlap(X,Y) = \frac{|\{b,c\}|}{\min(|\{a, b, c\}|, |\{b,c, d, e, f\}|)}=\frac{2}{\min (3, 5)} = \frac{2}{3} \approx 0.67 
+\begin{align}
+Overlap(X, Y) &= \frac{|\{b, c\}|}{\min(|\{a, b, c\}|, |\{b, c, d, e, f\}|)}\\
+&= \frac{2}{\min (3, 5)} \\
+&= \frac{2}{3} \approx 0.67 
+\end{align}
 $$
 
-Easy, right? It's simply the proportion of the smaller set's members that are also members of the larger set (thus, *overlap*).
+Easy, right? It's just the proportion of the smaller set's members that are also members of the larger set (thus, *overlap*).
 
-Notice, though, that if *all* of the elements of the smaller set were in the larger set -- i.e., if $X$ were a complete *subset* of $Y$ -- then the coefficient would still equal $1$ regardless of how many additional members were in $Y$. So, this similarity measure is defining *similarity* in a very specific way. It includes an assumption that any subset is effectively *equivalent* to its parent set. That little quirk of definition can be quite useful, depending on your application.
+Notice, though, that if *all* of the elements of the smaller set were in the larger set -- i.e., if we were to drop element $a$ from set $X$ so that it was a complete *subset* of $Y$ -- then the coefficient would equal $1$ regardless of how many additional members were in $Y$.
 
-The overlap coefficient is a common set similarity metric used in everything from gene sequencing to topic modeling. It's also quite easy to calculate across a binary incidence matrix.
+So, this similarity measure is defining *similarity* in a very specific way. It includes an assumption that *any* subset is effectively *equivalent* to its superset. That little quirk of definition can be quite useful, depending on your application.
+
+The overlap coefficient is a common set similarity metric used in everything from gene sequencing to topic modeling. It's also quite easy to calculate across our binary incidence matrix.
 
 ```{r}
 
-# Szymkiewicz-Simpson overlap coefficient for binary input matrix for binary
-# incidence matrices
+# Szymkiewicz-Simpson overlap coefficient for binary incidence matrices
 
 overlap_coef_bin <- function(x) {
   # Calculate the pairwise sums of non-zero matrix elements to find the number
@@ -186,7 +191,7 @@ overlap_coef_bin <- function(x) {
   ssoc <- bin_intersect_mat / min_set_size_mat
   
   # Set diagonal to identity
-  diag(ssoc) <- 1L
+  diag(ssoc) <- 1
   
   # Assign input column names to rows and columns of return matrix
   dimnames(ssoc) <- list(colnames(x), colnames(x))
@@ -197,6 +202,40 @@ overlap_coef_bin <- function(x) {
 ```
 
 ## Jaccard (or Tanimoto) Similarity Index
+
+The Jaccard index is probably the most well-known and used of the set similarity measures. You may also see this one referenced as the Tanimoto (or even Jaccard-Tanimoto) index, owing to its independent formulation through time in different fields of study. All versions, however, refer to a measure of similarity based on the ratio of cardinality between the *intersection* of two sets and their *union*.
+
+$$
+J(A, B) = \frac{|A \cap B|}{|A \cup B|} = \frac{|A \cap B|}{|A| + |B| - |A \cap B|}
+$$
+
+Unlike the overlap coefficient, you can see that the Jaccard index considers the *total* cardinality of the sets being compared in the denominator. That means that this index will *always* penalize differences between sets, even if one is a proper subset of the other.
+
+To demonstrate, let's go back to our toy example sets $X=\{a, b, c\}$ and $Y = \{b, c, d, e, f\}$ to calculate the Jaccard index value.
+
+$$
+\begin{align}
+J(X, Y) &= \frac{|\{b, c\}|}{|\{a, b, c\}| + |\{b, c, d, e, f\}| - |\{b, c\}|}\\
+&= \frac{2}{3 + 5 - 2} \\
+&= \frac{2}{6} \approx 0.33 
+\end{align}
+$$
+
+By considering the total cardinality of the sets, the Jaccard index comes back a fair bit *lower* than the Overlap Coefficient ($\approx 0.67$). Next, let's go ahead and drop element $a$ to make $X$ a proper subset of $Y$ and see what happens. Whereas the Overlap Coefficient was $1$, we find that
+
+$$
+\begin{align}
+J(X, Y) &= \frac{|\{b, c\}|}{|\{b, c\}| + |\{b, c, d, e, f\}| - |\{b, c\}|}\\
+&= \frac{2}{2 + 5 - 2} \\
+&= \frac{2}{5} = 0.4 
+\end{align}
+$$
+
+That's a significant difference! Even though $X$ is a proper subset of $Y$, the Jaccard index emphasizes the *differences* between the sets over their intersection. The greater the disparity between sets, the lower the index value. Again, depending on your use case, that extra penalization of difference may be to your advantage.
+
+The Jaccard similarity index is perhaps, as already mentioned, the most common and versatile of the set similarity measures. It's often used for comparing categorical data, and frequently found in ecological or social science applications.
+
+Our function to calculate the index is very similar to that for the overlap coefficient, but substituting summation for minimum value in our outer product and changing the denominator.
 
 ```{r}
 
@@ -216,16 +255,17 @@ jaccard_sim_bin <- function(x) {
   
   # Jaccard index is intersection of set sizes over the size of the union of
   # sets
-  res <- bin_intersect_mat / (set_size_sum_mat - bin_intersect_mat)
+  jacc <- bin_intersect_mat / (set_size_sum_mat - bin_intersect_mat)
   
   # Set diagonal to identity
-  diag(res) <- 1L
+  diag(jacc) <- 1
   
   # Assign input column names to rows and columns of return matrix
-  dimnames(res) <- list(colnames(x), colnames(x))
+  dimnames(jacc) <- list(colnames(x), colnames(x))
   
-  return(res)
+  return(jacc)
 }
+
 ```
 
 ## Sørensen--Dice Coefficient
@@ -248,15 +288,17 @@ soren_dice_sim_bin <- function(x) {
   
   # Sorenson-Dice index is twice the size of the intersection divided by the
   # sum of the size for each set
-  res <- (2 * bin_intersect_mat) / set_size_sum_mat
+  sd <- (2 * bin_intersect_mat) / set_size_sum_mat
   
   # Set diagonal to identity
-  diag(res) <- 1L
+  diag(sd) <- 1
   
   # Assign input column names to rows and columns of return matrix
-  dimnames(res) <- list(colnames(x), colnames(x))
-  return(res)
+  dimnames(sd) <- list(colnames(x), colnames(x))
+  return(sd)
   
 }
 
 ```
+
+## 

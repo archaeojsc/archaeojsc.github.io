@@ -94,6 +94,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <link href="assemblage_network_doc_2_similarity_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
 <link href="assemblage_network_doc_2_similarity_files/libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
 
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
 </head>
 
@@ -134,7 +135,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p><img src="archaeo_DS_mine.png" class="img-fluid"></p>
 <p>In my last installment (<a href="https://medium.com/p/648a2f20d389">Part I</a>), I introduced you to a bit about the process of analyzing an archaeological site with data science. I talked about the frustratingly complex nature of “Old Things in Space” and how the network of artifacts and locations constitute a bipartite graph.</p>
 <p>As we worked through the process of creating a two-mode graph and projecting it into its constituent one-mode graphs, however, we ended on something of a cliff-hanger… <em>everything</em> ended up connected to <em>everything else</em>!</p>
-<p>Well, sort of. I have to confess that I intentionally lead you down a primrose path straight into a carefully crafted cul-de-sac. All part of my cunning plan, of course, to get to the much more interesting topic of thinking about just what it means for two things to be “similar” and similarity metrics for <em>sets.</em></p>
+<p>Well, sort of. I have to confess that I intentionally lead you down a primrose path straight into a cul-de-sac. All part of my cunning plan, of course, to get to the much more interesting topic of thinking about just what it means for two things to be “similar” and similarity metrics for <em>sets.</em></p>
 <p>In my defense, I did briefly mention that <code>igraph</code> doesn’t really have the best of tools to actually <em>do</em> much of anything interesting with bipartite graphs. The problem is that the method it uses in its <code>bipartite_projection</code> simply sums the pairwise occurrences in the incidence matrix. That, as it turns out, is less than useful in a lot of cases.</p>
 <p>Instead, we need to explore some more robust methods for evaluating <em>similarity</em> between sets. Unlike numerical methods of calculating correlation or distance, there are some conceptual peculiarities when comparing correspondence and similarity between sets that need to be considered. In this article, we’ll look at some of the most commonly used set-based similarity metrics and reason through <em>how</em> to choose the appropriate metric for our goals.</p>
 <p>For those just joining in, this is the Part II of a series in archaeological data science covering:</p>
@@ -195,8 +196,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">values =</span> <span class="fu">c</span>(<span class="st">"green"</span>, <span class="st">"blue"</span>),</span>
 <span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">name =</span> <span class="st">"Node Type"</span>,</span>
 <span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">breaks =</span> <span class="fu">c</span>(<span class="cn">FALSE</span>, <span class="cn">TRUE</span>),</span>
-<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">"Provenience"</span>, <span class="st">"Artifact"</span>)</span>
-<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">"Provenience"</span>, <span class="st">"Artifact"</span>)) <span class="sc">+</span></span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggtitle</span>(<span class="st">"Bipartite network of Provenience and Artifact Type"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -224,11 +225,159 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>Depending on which way we view our incidence matrix, we now have a collection of the sets of artifact types found at each provenience (by row) or sets of proveniences at which each artifact type was found (by column).</p>
 <p>The goal is to find a partitioning of this system of sets such that each subset of provenience contains a coherent collection of artifact types (i.e., what archaeologists call an <em>assemblage</em>) and each subset of artifact types are found together in a coherent spatial collection of proveniences (we call those a <em>context</em>).</p>
 <p>What we’re trying to do now is to look at the ways we compute that “coherence” within the projected modes of our bipartite graph. In order to project our bipartite node types into two separate one-mode graphs, we want to evaluate similarity measures between pairwise comparisons of these sets.</p>
-<p>We found out in the last installment (<a href="https://medium.com/p/648a2f20d389">Part I</a>) that the <code>bipartite_projection</code> method in <code>igraph</code> only sums the number of pairwise coincidences. That means, though, that even one shared element between sets is enough to link them. It doesn’t, at all, factor in how many elements of the sets are <em>different</em> or the <em>total</em> number of elements being considered. In the end, every node in each projection was linked to almost every other node with no good way to evaluate the <em>strength</em> of those connections. Not particularly useful.</p>
+</section>
+<section id="archaeological-objectives" class="level2">
+<h2 class="anchored" data-anchor-id="archaeological-objectives">Archaeological Objectives</h2>
+<p>I’ve introduced you to a couple archaeological concepts, as well as a few concepts about sets and graphs. Now I’d like to pause to explain why we’re so interested in finding these subsets and partitions. You see, archaeologists don’t really interpret artifacts <em>per se</em>.</p>
+<p>We’re interested in interpreting human activities across time and space, which gives us a window into far more abstract concepts like <em>behavior</em> or <em>culture</em>. The way we do that, since we don’t have a time machine to go back and observe what people were actually doing, is by looking for patterns of associations between the physical remnants (i.e., the debris or <em>trash</em>) left behind by those activities. Weird, I know, but it works surprisingly well.</p>
+<p>Just think for a moment about what you’re trash might show about <em>your</em> daily behavior!</p>
+<p>Anyway, the reason we’re so interested in finding groupings in artifacts (the things) and provenience (the location in 3-dimensional space) is that those are just the samples we collect. We want to know about the <em>populations</em> from which those samples are drawn. In this case, those populations are the <em>assemblages</em> and <em>contexts</em>. We want to see if we can differentiate one assemblage or context from another, then see what patterns that reveals.</p>
+<p>For example, does an identified assemblage of artifacts have a specific range of dates so that it uniquely identifies <em>when</em> or <em>how long</em> a site was occupied? Does one assemblage relate to domestic activities while another reflects economic activities, and are those spaces (i.e., their contexts) separate or commingled? If the site was occupied multiple times or by multiple households, were they continuous or intermittent? Different assemblages might be mixed into the same context if they were continuous.</p>
+<p>So many questions, but parsing the artifact and provenience data into assemblages and contexts is the first step. We want to be sure that our analytic methods are appropriate.</p>
 </section>
 </section>
-<section id="bipartite-projection-by-similarity" class="level1">
-<h1>Bipartite Projection by Similarity</h1>
+<section id="similarity-measures-for-projections" class="level1">
+<h1>Similarity Measures for Projections</h1>
+<p>We found out in the last installment (<a href="https://medium.com/p/648a2f20d389">Part I</a>) that the <code>bipartite_projection</code> method in <code>igraph</code> only sums the number of pairwise coincidences. That means, though, that even one shared element between sets is enough to link them. It doesn’t, at all, factor in how many elements of the sets are <em>different</em> or the <em>total</em> number of elements being considered.</p>
+<p>In the end, every node in each projection was linked to almost every other node with no good way to evaluate the <em>strength</em> of those connections. Not particularly useful.</p>
+<p>Now we can start looking more closely at set-based similarity measures, and how use them to project our bipartite graph. We could use existing packages for these, but I’d like instead to build our own functions in order to get a better sense of what is going on “under the hood” so to speak.</p>
+<p>Do note that these functions are intended for binary incidence matrices. Different approaches would be needed for sets with multiplicities or counts (i.e., multisets or m-sets).</p>
+<section id="overlap-or-szymkiewicz-simpson-coefficient" class="level2">
+<h2 class="anchored" data-anchor-id="overlap-or-szymkiewicz-simpson-coefficient">Overlap or Szymkiewicz-Simpson Coefficient</h2>
+<p>This similarity measure is simply the number of common elements of the intersection between two sets divided by the total number of members in the <em>smaller</em> of the two sets. Remember, the number of unique members or elements that make up a set are its size or (more formally) its cardinality.</p>
+<p><span class="math display">\[
+Overlap(A, B) = \frac{|A \cap B |}{\min ({|A|,|B|})}
+\]</span></p>
+<p>For example, say we have two sets: <span class="math inline">\(X=\{a, b, c\}\)</span> and <span class="math inline">\(Y = \{b, c, d, e, f\}\)</span>. Their intersection is <span class="math inline">\(X \cap Y = \{b, c\}\)</span> and the sets have cardinality <span class="math inline">\(|X|=3\)</span> and <span class="math inline">\(|Y| = 5\)</span>. Their overlap coefficient would be:</p>
+<p><span class="math display">\[
+\begin{align}
+Overlap(X, Y) &amp;= \frac{|\{b, c\}|}{\min(|\{a, b, c\}|, |\{b, c, d, e, f\}|)}\\
+&amp;= \frac{2}{\min (3, 5)} \\
+&amp;= \frac{2}{3} \approx 0.67
+\end{align}
+\]</span></p>
+<p>Easy, right? It’s just the proportion of the smaller set’s members that are also members of the larger set (thus, <em>overlap</em>).</p>
+<p>Notice, though, that if <em>all</em> of the elements of the smaller set were in the larger set – i.e., if we were to drop element <span class="math inline">\(a\)</span> from set <span class="math inline">\(X\)</span> so that it was a complete <em>subset</em> of <span class="math inline">\(Y\)</span> – then the coefficient would equal <span class="math inline">\(1\)</span> regardless of how many additional members were in <span class="math inline">\(Y\)</span>.</p>
+<p>So, this similarity measure is defining <em>similarity</em> in a very specific way. It includes an assumption that <em>any</em> subset is effectively <em>equivalent</em> to its superset. That little quirk of definition can be quite useful, depending on your application.</p>
+<p>The overlap coefficient is a common set similarity metric used in everything from gene sequencing to topic modeling. It’s also quite easy to calculate across our binary incidence matrix.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Szymkiewicz-Simpson overlap coefficient for binary incidence matrices</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>overlap_coef_bin <span class="ot">&lt;-</span> <span class="cf">function</span>(x) {</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Calculate the pairwise sums of non-zero matrix elements to find the number</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>  <span class="co"># of intersecting elements between each input column</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>  bin_intersect_mat <span class="ot">&lt;-</span> <span class="fu">t</span>(x) <span class="sc">%*%</span> x</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Calculate the input column sums to find the individual size of each set</span></span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>  col_sum <span class="ot">&lt;-</span> <span class="fu">apply</span>(x, <span class="dv">2</span>, <span class="cf">function</span>(xx)</span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>    <span class="fu">sum</span>(xx <span class="sc">!=</span> <span class="dv">0</span>))</span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Find the smaller of each pair of sets by taking the matrix outer minimum</span></span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>  min_set_size_mat <span class="ot">&lt;-</span> <span class="fu">outer</span>(col_sum, col_sum, <span class="at">FUN =</span> pmin)</span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Szymkiewicz-Simpson overlap coefficient is the pairwise intersection of two</span></span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a>  <span class="co"># sets divided by the size of the smaller set</span></span>
+<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a>  ssoc <span class="ot">&lt;-</span> bin_intersect_mat <span class="sc">/</span> min_set_size_mat</span>
+<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Set diagonal to identity</span></span>
+<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">diag</span>(ssoc) <span class="ot">&lt;-</span> <span class="dv">1</span></span>
+<span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb5-22"><a href="#cb5-22" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Assign input column names to rows and columns of return matrix</span></span>
+<span id="cb5-23"><a href="#cb5-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">dimnames</span>(ssoc) <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="fu">colnames</span>(x), <span class="fu">colnames</span>(x))</span>
+<span id="cb5-24"><a href="#cb5-24" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb5-25"><a href="#cb5-25" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(ssoc)</span>
+<span id="cb5-26"><a href="#cb5-26" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="jaccard-or-tanimoto-similarity-index" class="level2">
+<h2 class="anchored" data-anchor-id="jaccard-or-tanimoto-similarity-index">Jaccard (or Tanimoto) Similarity Index</h2>
+<p>The Jaccard index is probably the most well-known and used of the set similarity measures. You may also see this one referenced as the Tanimoto (or even Jaccard-Tanimoto) index, owing to its independent formulation through time in different fields of study. All versions, however, refer to a measure of similarity based on the ratio of cardinality between the <em>intersection</em> of two sets and their <em>union</em>.</p>
+<p><span class="math display">\[
+J(A, B) = \frac{|A \cap B|}{|A \cup B|} = \frac{|A \cap B|}{|A| + |B| - |A \cap B|}
+\]</span></p>
+<p>Unlike the overlap coefficient, you can see that the Jaccard index considers the <em>total</em> cardinality of the sets being compared in the denominator. That means that this index will <em>always</em> penalize differences between sets, even if one is a proper subset of the other.</p>
+<p>To demonstrate, let’s go back to our toy example sets <span class="math inline">\(X=\{a, b, c\}\)</span> and <span class="math inline">\(Y = \{b, c, d, e, f\}\)</span> to calculate the Jaccard index value.</p>
+<p><span class="math display">\[
+\begin{align}
+J(X, Y) &amp;= \frac{|\{b, c\}|}{|\{a, b, c\}| + |\{b, c, d, e, f\}| - |\{b, c\}|}\\
+&amp;= \frac{2}{3 + 5 - 2} \\
+&amp;= \frac{2}{6} \approx 0.33
+\end{align}
+\]</span></p>
+<p>By considering the total cardinality of the sets, the Jaccard index comes back a fair bit <em>lower</em> than the Overlap Coefficient (<span class="math inline">\(\approx 0.67\)</span>). Next, let’s go ahead and drop element <span class="math inline">\(a\)</span> to make <span class="math inline">\(X\)</span> a proper subset of <span class="math inline">\(Y\)</span> and see what happens. Whereas the Overlap Coefficient was <span class="math inline">\(1\)</span>, we find that</p>
+<p><span class="math display">\[
+\begin{align}
+J(X, Y) &amp;= \frac{|\{b, c\}|}{|\{b, c\}| + |\{b, c, d, e, f\}| - |\{b, c\}|}\\
+&amp;= \frac{2}{2 + 5 - 2} \\
+&amp;= \frac{2}{5} = 0.4
+\end{align}
+\]</span></p>
+<p>That’s a significant difference! Even though <span class="math inline">\(X\)</span> is a proper subset of <span class="math inline">\(Y\)</span>, the Jaccard index emphasizes the <em>differences</em> between the sets over their intersection. The greater the disparity between sets, the lower the index value. Again, depending on your use case, that extra penalization of difference may be to your advantage.</p>
+<p>The Jaccard similarity index is perhaps, as already mentioned, the most common and versatile of the set similarity measures. It’s often used for comparing categorical data, and frequently found in ecological or social science applications.</p>
+<p>Our function to calculate the index is very similar to that for the overlap coefficient, but substituting summation for minimum value in our outer product and changing the denominator.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Jaccard/Tanimoto similarity index for binary incidence matrices</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>jaccard_sim_bin <span class="ot">&lt;-</span> <span class="cf">function</span>(x) {</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Calculate the pairwise sums of non-zero matrix elements to find the number</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>  <span class="co"># of intersecting elements between each input column</span></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>  bin_intersect_mat <span class="ot">&lt;-</span> <span class="fu">t</span>(x) <span class="sc">%*%</span> x</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Calculate the input column sums to find the individual size of each set</span></span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>  x_col_sum <span class="ot">&lt;-</span> <span class="fu">apply</span>(x, <span class="dv">2</span>, <span class="cf">function</span>(xx)</span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>    <span class="fu">sum</span>(xx <span class="sc">!=</span> <span class="dv">0</span>))</span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Calculate the matrix outer sums for pairwise sum of set sizes</span></span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>  set_size_sum_mat <span class="ot">&lt;-</span> <span class="fu">outer</span>(x_col_sum, x_col_sum, <span class="at">FUN =</span> <span class="st">"+"</span>)</span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Jaccard index is intersection of set sizes over the size of the union of</span></span>
+<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a>  <span class="co"># sets</span></span>
+<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a>  jacc <span class="ot">&lt;-</span> bin_intersect_mat <span class="sc">/</span> (set_size_sum_mat <span class="sc">-</span> bin_intersect_mat)</span>
+<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Set diagonal to identity</span></span>
+<span id="cb6-20"><a href="#cb6-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">diag</span>(jacc) <span class="ot">&lt;-</span> 1L</span>
+<span id="cb6-21"><a href="#cb6-21" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb6-22"><a href="#cb6-22" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Assign input column names to rows and columns of return matrix</span></span>
+<span id="cb6-23"><a href="#cb6-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">dimnames</span>(jacc) <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="fu">colnames</span>(x), <span class="fu">colnames</span>(x))</span>
+<span id="cb6-24"><a href="#cb6-24" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb6-25"><a href="#cb6-25" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(jacc)</span>
+<span id="cb6-26"><a href="#cb6-26" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="sørensendice-coefficient" class="level2">
+<h2 class="anchored" data-anchor-id="sørensendice-coefficient">Sørensen–Dice Coefficient</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Sørensen–Dice Coefficient for binary incidence matrices</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>soren_dice_sim_bin <span class="ot">&lt;-</span> <span class="cf">function</span>(x) {</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Calculate the pairwise sums of non-zero matrix elements to find the number</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>  <span class="co"># of intersecting elements between each input column</span></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>  bin_intersect_mat <span class="ot">&lt;-</span> <span class="fu">t</span>(x) <span class="sc">%*%</span> x</span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Calculate the input column sums, to find the individual size of each set</span></span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>  col_sum <span class="ot">&lt;-</span> <span class="fu">apply</span>(x, <span class="dv">2</span>, <span class="cf">function</span>(xx)</span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>    <span class="fu">sum</span>(xx <span class="sc">!=</span> <span class="dv">0</span>))</span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Calculate the matrix outer sums for pairwise sum of set sizes</span></span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>  set_size_sum_mat <span class="ot">&lt;-</span> <span class="fu">outer</span>(col_sum, col_sum, <span class="at">FUN =</span> <span class="st">"+"</span>)</span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Sorenson-Dice index is twice the size of the intersection divided by the</span></span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a>  <span class="co"># sum of the size for each set</span></span>
+<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a>  sd <span class="ot">&lt;-</span> (<span class="dv">2</span> <span class="sc">*</span> bin_intersect_mat) <span class="sc">/</span> set_size_sum_mat</span>
+<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Set diagonal to identity</span></span>
+<span id="cb7-20"><a href="#cb7-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">diag</span>(sd) <span class="ot">&lt;-</span> <span class="dv">1</span></span>
+<span id="cb7-21"><a href="#cb7-21" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb7-22"><a href="#cb7-22" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Assign input column names to rows and columns of return matrix</span></span>
+<span id="cb7-23"><a href="#cb7-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">dimnames</span>(sd) <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="fu">colnames</span>(x), <span class="fu">colnames</span>(x))</span>
+<span id="cb7-24"><a href="#cb7-24" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(sd)</span>
+<span id="cb7-25"><a href="#cb7-25" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb7-26"><a href="#cb7-26" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="section" class="level2">
+<h2 class="anchored" data-anchor-id="section"></h2>
+</section>
 </section>
 
 </main>
