@@ -15,7 +15,7 @@ In my last installment ([Part I](https://medium.com/p/648a2f20d389)), I introduc
 
 As we worked through the process of creating a two-mode graph and projecting it into its constituent one-mode graphs, however, we ended on something of a cliff-hanger... *everything* ended up connected to *everything else*!
 
-Well, sort of. I have to confess that I intentionally lead you down a primrose path straight into a carefully crafted cul-de-sac. All part of my cunning plan, of course, to get to the much more interesting topic of thinking about just what it means for two things to be "similar" and similarity metrics for *sets.*
+Well, sort of. I have to confess that I intentionally lead you down a primrose path straight into a cul-de-sac. All part of my cunning plan, of course, to get to the much more interesting topic of thinking about just what it means for two things to be "similar" and similarity metrics for *sets.*
 
 In my defense, I did briefly mention that `igraph` doesn't really have the best of tools to actually *do* much of anything interesting with bipartite graphs. The problem is that the method it uses in its `bipartite_projection` simply sums the pairwise occurrences in the incidence matrix. That, as it turns out, is less than useful in a lot of cases.
 
@@ -120,19 +120,54 @@ The goal is to find a partitioning of this system of sets such that each subset 
 
 What we're trying to do now is to look at the ways we compute that "coherence" within the projected modes of our bipartite graph. In order to project our bipartite node types into two separate one-mode graphs, we want to evaluate similarity measures between pairwise comparisons of these sets.
 
+## Archaeological Objectives
+
+I've introduced you to a couple archaeological concepts now, in addition to a few concepts about sets and graphs. Now I'd like to pause to explain why we're so interested in finding these subsets and partitions. You see, archaeologists don't really interpret artifacts *per se*.
+
+We're interested in interpreting human activities across time and space, which gives us a window into far more abstract concepts like *behavior* or *culture*. The way we do that, since we don't have a time machine to go back and observe what people were actually doing, is by looking for patterns of associations between the physical remnants (i.e., the debris or *trash*) left behind by those activities. Weird, I know, but it works surprisingly well.
+
+Just think for a moment about what you're trash might show about *your* daily behavior!
+
+Anyway, the reason we're so interested in finding groupings in artifacts (the things) and provenience (the location in 3-dimensional space) is that those are just the samples we collect. We want to know about the *populations* from which those samples are drawn. In this case, those populations are the *assemblages* and *contexts*. We want to see if we can differentiate one assemblage or context from another, then see what patterns that reveals.
+
+For example, does an identified assemblage of artifacts have a specific range of dates so that it uniquely identifies *when* or *how long* a site was occupied? Does one assemblage relate to domestic activities while another reflects economic activities, and are those spaces (i.e., their contexts) separate or comingled? If the site was occupied multiple times or by multiple households, were they continuous or intermittent? Different assemblages might be mixed into the same context if they were continuous.
+
+So many questions, but parsing the artifact and provenience data into assemblages and contexts is the first step. We want to be sure that our analytic methods are appropriate.
+
+# Similarity Measures for Projections
+
 We found out in the last installment ([Part I](https://medium.com/p/648a2f20d389)) that the `bipartite_projection` method in `igraph` only sums the number of pairwise coincidences. That means, though, that even one shared element between sets is enough to link them. It doesn't, at all, factor in how many elements of the sets are *different* or the *total* number of elements being considered.
 
 In the end, every node in each projection was linked to almost every other node with no good way to evaluate the *strength* of those connections. Not particularly useful.
 
-# Similarity Measures for Projections
+Now we can start looking more closely at set-based similarity measures, and how use them to project our bipartite graph. We could use existing packages for these, but I'd like instead to build our own functions in order to get a better sense of what is going on "under the hood" so to speak.
 
-Now we can start looking more closely at set-based similarity measures, and how use them to project our bipartite graph. We could use existing packages for these, but I'd like instead to build our own functions in order to get a better sense of what is going on "under the hood" so to speak. Do note that these functions are intended for binary incidence matrices. Different approaches would be needed for sets with multiplicities or counts (i.e., multisets or m-sets).
+Do note that these functions are intended for binary incidence matrices. Different approaches would be needed for sets with multiplicities or counts (i.e., multisets or m-sets).
 
-## Overlap or Szymkiewicz-Simpson coefficient
+## Overlap or Szymkiewicz-Simpson Coefficient
+
+This similarity measure is simply the number of common elements of the intersection between two sets divided by the total number of members in the *smaller* of the two sets. Remember, the number of unique members or elements that make up a set are its size or (more formally) its cardinality.
+
+$$
+Overlap(A, B) = \frac{|A \cap B |}{\min ({|A|,|B|})}
+$$
+
+For example, say we have two sets: $X=\{a, b, c\}$ and $Y = \{b, c, d, e, f\}$. Their intersection is $X \cap Y = \{b, c\}$ and the sets have cardinality $|X|=3$ and $|Y| = 5$. Their overlap coefficient would be:
+
+$$
+Overlap(X,Y) = \frac{|\{b,c\}|}{\min(|\{a, b, c\}|, |\{b,c, d, e, f\}|)}=\frac{2}{\min (3, 5)} = \frac{2}{3} \approx 0.67 
+$$
+
+Easy, right? It's simply the proportion of the smaller set's members that are also members of the larger set (thus, *overlap*).
+
+Notice, though, that if *all* of the elements of the smaller set were in the larger set -- i.e., if $X$ were a complete *subset* of $Y$ -- then the coefficient would still equal $1$ regardless of how many additional members were in $Y$. So, this similarity measure is defining *similarity* in a very specific way. It includes an assumption that any subset is effectively *equivalent* to its parent set. That little quirk of definition can be quite useful, depending on your application.
+
+The overlap coefficient is a common set similarity metric used in everything from gene sequencing to topic modeling. It's also quite easy to calculate across a binary incidence matrix.
 
 ```{r}
 
-# Szymkiewicz-Simpson coefficient for binary input matrix
+# Szymkiewicz-Simpson overlap coefficient for binary input matrix for binary
+# incidence matrices
 
 overlap_coef_bin <- function(x) {
   # Calculate the pairwise sums of non-zero matrix elements to find the number
@@ -148,15 +183,15 @@ overlap_coef_bin <- function(x) {
   
   # Szymkiewicz-Simpson overlap coefficient is the pairwise intersection of two
   # sets divided by the size of the smaller set
-  res <- bin_intersect_mat / min_set_size_mat
+  ssoc <- bin_intersect_mat / min_set_size_mat
   
   # Set diagonal to identity
-  diag(res) <- 1L
+  diag(ssoc) <- 1L
   
   # Assign input column names to rows and columns of return matrix
-  dimnames(res) <- list(colnames(x), colnames(x))
+  dimnames(ssoc) <- list(colnames(x), colnames(x))
   
-  return(res)
+  return(ssoc)
 }
 
 ```
@@ -165,7 +200,7 @@ overlap_coef_bin <- function(x) {
 
 ```{r}
 
-# Jaccard/Tanimoto similarity index
+# Jaccard/Tanimoto similarity index for binary incidence matrices
 
 jaccard_sim_bin <- function(x) {
   # Calculate the pairwise sums of non-zero matrix elements to find the number
@@ -197,7 +232,7 @@ jaccard_sim_bin <- function(x) {
 
 ```{r}
 
-# Sørensen–Dice Coefficient
+# Sørensen–Dice Coefficient for binary incidence matrices
 
 soren_dice_sim_bin <- function(x) {
   # Calculate the pairwise sums of non-zero matrix elements to find the number
