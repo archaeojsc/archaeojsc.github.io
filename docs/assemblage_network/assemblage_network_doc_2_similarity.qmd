@@ -97,8 +97,9 @@ g_assemblages_bpg %>%
     values = c("green", "blue"),
     name = "Node Type",
     breaks = c(FALSE, TRUE),
-    labels = c("Provenience", "Artifact")
-  )
+    labels = c("Provenience", "Artifact")) +
+  ggtitle("Bipartite network of Provenience and Artifact Type")
+  
 
 ```
 
@@ -119,6 +120,108 @@ The goal is to find a partitioning of this system of sets such that each subset 
 
 What we're trying to do now is to look at the ways we compute that "coherence" within the projected modes of our bipartite graph. In order to project our bipartite node types into two separate one-mode graphs, we want to evaluate similarity measures between pairwise comparisons of these sets.
 
-We found out in the last installment ([Part I](https://medium.com/p/648a2f20d389)) that the `bipartite_projection` method in `igraph` only sums the number of pairwise coincidences. That means, though, that even one shared element between sets is enough to link them. It doesn't, at all, factor in how many elements of the sets are *different* or the *total* number of elements being considered. In the end, every node in each projection was linked to almost every other node with no good way to evaluate the *strength* of those connections. Not particularly useful.
+We found out in the last installment ([Part I](https://medium.com/p/648a2f20d389)) that the `bipartite_projection` method in `igraph` only sums the number of pairwise coincidences. That means, though, that even one shared element between sets is enough to link them. It doesn't, at all, factor in how many elements of the sets are *different* or the *total* number of elements being considered.
 
-# Bipartite Projection by Similarity
+In the end, every node in each projection was linked to almost every other node with no good way to evaluate the *strength* of those connections. Not particularly useful.
+
+# Similarity Measures for Projections
+
+Now we can start looking more closely at set-based similarity measures, and how use them to project our bipartite graph. We could use existing packages for these, but I'd like instead to build our own functions in order to get a better sense of what is going on "under the hood" so to speak. Do note that these functions are intended for binary incidence matrices. Different approaches would be needed for sets with multiplicities or counts (i.e., multisets or m-sets).
+
+## Overlap or Szymkiewicz-Simpson coefficient
+
+```{r}
+
+# Szymkiewicz-Simpson coefficient for binary input matrix
+
+overlap_coef_bin <- function(x) {
+  # Calculate the pairwise sums of non-zero matrix elements to find the number
+  # of intersecting elements between each input column
+  bin_intersect_mat <- t(x) %*% x
+  
+  # Calculate the input column sums to find the individual size of each set
+  col_sum <- apply(x, 2, function(xx)
+    sum(xx != 0))
+  
+  # Find the smaller of each pair of sets by taking the matrix outer minimum
+  min_set_size_mat <- outer(col_sum, col_sum, FUN = pmin)
+  
+  # Szymkiewicz-Simpson overlap coefficient is the pairwise intersection of two
+  # sets divided by the size of the smaller set
+  res <- bin_intersect_mat / min_set_size_mat
+  
+  # Set diagonal to identity
+  diag(res) <- 1L
+  
+  # Assign input column names to rows and columns of return matrix
+  dimnames(res) <- list(colnames(x), colnames(x))
+  
+  return(res)
+}
+
+```
+
+## Jaccard (or Tanimoto) Similarity Index
+
+```{r}
+
+# Jaccard/Tanimoto similarity index
+
+jaccard_sim_bin <- function(x) {
+  # Calculate the pairwise sums of non-zero matrix elements to find the number
+  # of intersecting elements between each input column
+  bin_intersect_mat <- t(x) %*% x
+  
+  # Calculate the input column sums to find the individual size of each set
+  x_col_sum <- apply(x, 2, function(xx)
+    sum(xx != 0))
+  
+  # Calculate the matrix outer sums for pairwise sum of set sizes
+  set_size_sum_mat <- outer(x_col_sum, x_col_sum, FUN = "+")
+  
+  # Jaccard index is intersection of set sizes over the size of the union of
+  # sets
+  res <- bin_intersect_mat / (set_size_sum_mat - bin_intersect_mat)
+  
+  # Set diagonal to identity
+  diag(res) <- 1L
+  
+  # Assign input column names to rows and columns of return matrix
+  dimnames(res) <- list(colnames(x), colnames(x))
+  
+  return(res)
+}
+```
+
+## Sørensen--Dice Coefficient
+
+```{r}
+
+# Sørensen–Dice Coefficient
+
+soren_dice_sim_bin <- function(x) {
+  # Calculate the pairwise sums of non-zero matrix elements to find the number
+  # of intersecting elements between each input column
+  bin_intersect_mat <- t(x) %*% x
+  
+  # Calculate the input column sums, to find the individual size of each set
+  col_sum <- apply(x, 2, function(xx)
+    sum(xx != 0))
+  
+  # Calculate the matrix outer sums for pairwise sum of set sizes
+  set_size_sum_mat <- outer(col_sum, col_sum, FUN = "+")
+  
+  # Sorenson-Dice index is twice the size of the intersection divided by the
+  # sum of the size for each set
+  res <- (2 * bin_intersect_mat) / set_size_sum_mat
+  
+  # Set diagonal to identity
+  diag(res) <- 1L
+  
+  # Assign input column names to rows and columns of return matrix
+  dimnames(res) <- list(colnames(x), colnames(x))
+  return(res)
+  
+}
+
+```

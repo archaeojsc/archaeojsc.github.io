@@ -30,7 +30,7 @@ g_assemblages_bpg %>%
     breaks = c(FALSE, TRUE),
     labels = c("Provenience", "Artifact")
   ) +
-  ggtitle("Bipartite network of Provenience and ARtifact Type")
+  ggtitle("Bipartite network of Provenience and Artifact Type")
 
 
 # Create incidence matrix from bipartite graph -----------------------------
@@ -46,12 +46,12 @@ g_assemblages_proj_prov <- g_assemblages_proj$proj1
 
 g_assemblages_proj_artifact <- g_assemblages_proj$proj2
 
-g_assemblages_proj_prov %>%
-  ggraph(layout = "fr") +
-  geom_edge_link(color = "gray", aes(alpha = weight)) +
-  geom_node_point(color = "green", size = 2) +
-  ggtitle("Network of Proveniences")
-
+# g_assemblages_proj_prov %>%
+#   ggraph(layout = "fr") +
+#   geom_edge_link(color = "gray", aes(alpha = weight)) +
+#   geom_node_point(color = "green", size = 2) +
+#   ggtitle("Network of Proveniences")
+# 
 # g_assemblages_proj_artifact %>%
 #   ggraph(layout = "fr") +
 #   geom_edge_link(color = "gray", aes(alpha = weight)) +
@@ -167,8 +167,8 @@ soren_dice_sim_bin <- function(x) {
   # Calculate the matrix outer sums for pairwise sum of set sizes
   set_size_sum_mat <- outer(col_sum, col_sum, FUN = "+")
   
-  # Sorenson-Dice index is twice the size of the intersections divided by the
-  # sum of the sizes for each set
+  # Sorenson-Dice index is twice the size of the intersection divided by the
+  # sum of the size for each set
   res <- (2 * bin_intersect_mat) / set_size_sum_mat
   
   # Set diagonal to identity

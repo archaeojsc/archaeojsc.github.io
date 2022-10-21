@@ -163,9 +163,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>It is important to consider, however, exactly what relationships between sets you are trying to capture before choosing a method. If your samples all contain approximately the same number of elements, you might choose differently than if each sample has widely different numbers of members. How likely are complete subsets, and are those important to capture? Are differences more important than commonalities, or the other way around?</p>
 <p>As with any data analysis, it’s necessary to explicitly consider your <em>methodology</em> as well as your methods. The rationale and justification for the selection of methods is a critical part of the process. That is, after all, why we call it data <em>science</em>.</p>
 </section>
-</section>
-<section id="bipartite-projections-by-similarity" class="level1">
-<h1>Bipartite Projections by Similarity</h1>
+<section id="revisiting-bipartite-graphs-and-projections" class="level2">
+<h2 class="anchored" data-anchor-id="revisiting-bipartite-graphs-and-projections">Revisiting Bipartite Graphs and Projections</h2>
 <p>First, lets go back and recreate our bipartite graph of sampling locations (called “proveniences”) and artifact types found at those locations like we did in <a href="https://medium.com/p/648a2f20d389">Part I</a>.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">require</span>(tidyverse)</span>
@@ -224,7 +223,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 <p>Depending on which way we view our incidence matrix, we now have a collection of the sets of artifact types found at each provenience (by row) or sets of proveniences at which each artifact type was found (by column).</p>
 <p>The goal is to find a partitioning of this system of sets such that each subset of provenience contains a coherent collection of artifact types (i.e., what archaeologists call an <em>assemblage</em>) and each subset of artifact types are found together in a coherent spatial collection of proveniences (we call those a <em>context</em>).</p>
-<p>What we’re trying to do in this article is to look at the ways we compute that “coherence” within the projected modes of our bipartite graph. In order to project our bipartite node types into two separate one-mode graphs, we want to evaluate similarity measures between pairwise comparisons of these sets.</p>
+<p>What we’re trying to do now is to look at the ways we compute that “coherence” within the projected modes of our bipartite graph. In order to project our bipartite node types into two separate one-mode graphs, we want to evaluate similarity measures between pairwise comparisons of these sets.</p>
+<p>We found out in the last installment (<a href="https://medium.com/p/648a2f20d389">Part I</a>) that the <code>bipartite_projection</code> method in <code>igraph</code> only sums the number of pairwise coincidences. That means, though, that even one shared element between sets is enough to link them. It doesn’t, at all, factor in how many elements of the sets are <em>different</em> or the <em>total</em> number of elements being considered. In the end, every node in each projection was linked to almost every other node with no good way to evaluate the <em>strength</em> of those connections. Not particularly useful.</p>
+</section>
+</section>
+<section id="bipartite-projection-by-similarity" class="level1">
+<h1>Bipartite Projection by Similarity</h1>
 </section>
 
 </main>
