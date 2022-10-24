@@ -209,7 +209,7 @@ $$
 J(A, B) = \frac{|A \cap B|}{|A \cup B|} = \frac{|A \cap B|}{|A| + |B| - |A \cap B|}
 $$
 
-Unlike the overlap coefficient, you can see that the Jaccard index considers the *total* cardinality of the sets being compared in the denominator. That means that this index will *always* penalize differences between sets, even if one is a proper subset of the other.
+Unlike the overlap coefficient, you can see that the Jaccard index considers the *total* membership of both sets being compared in the denominator. That means that this index will *always* penalize differences between sets, even if one is a proper subset of the other.
 
 To demonstrate, let's go back to our toy example sets $X=\{a, b, c\}$ and $Y = \{b, c, d, e, f\}$ to calculate the Jaccard index value.
 
@@ -231,7 +231,7 @@ J(X, Y) &= \frac{|\{b, c\}|}{|\{b, c\}| + |\{b, c, d, e, f\}| - |\{b, c\}|}\\
 \end{align}
 $$
 
-That's a significant difference! Even though $X$ is a proper subset of $Y$, the Jaccard index emphasizes the *differences* between the sets over their intersection. The greater the disparity between sets, the lower the index value. Again, depending on your use case, that extra penalization of difference may be to your advantage.
+That's a significant difference! Even though $X$ is a proper subset of $Y$, the Jaccard index emphasizes the *differences* between the sets over their commonalities. The greater the disparity between sets, the lower the index value. Again, depending on your use case, that extra penalization of difference may be to your advantage.
 
 The Jaccard similarity index is perhaps, as already mentioned, the most common and versatile of the set similarity measures. It's often used for comparing categorical data, and frequently found in ecological or social science applications.
 
@@ -268,7 +268,39 @@ jaccard_sim_bin <- function(x) {
 
 ```
 
-## Sørensen--Dice Coefficient
+## Sørensen--Dice Similarity Coefficient
+
+Similar to the Jaccard index, the Sørensen--Dice similarity coefficient compares the ratio of the intersection to the total membership of both sets. The difference is that the denominator for Sørensen--Dice is the sum of the cardinalities rather than that of the union of the sets as it is for Jaccard. Another difference is that Sørensen--Dice doubles the intersection in the numerator, which has the effect of "weighting" the commonalities between sets a little bit more than the differences.
+
+$$
+DSC(A, B) = \frac{2 \times |A \cap B|}{|A| + |B|}
+$$
+
+Let's see how Sørensen--Dice similarity compares with our toy example $X=\{a, b, c\}$ and $Y = \{b, c, d, e, f\}$ again.
+
+$$
+\begin{align}
+DSC(X, Y) &= \frac{2 \times |\{b, c\}|}{|\{a, b, c\}| + |\{b, c, d, e, f\}|}\\
+&= \frac{2 \times 2}{3 + 5} \\
+&= \frac{4}{8} = 0.5 
+\end{align}
+$$
+
+As expected, our calculated similarity $DSC = 0.5$ is somewhat higher than Jaccard but lower than the Overlap Coefficient. What happens now if we make $X$ a proper subset of $Y$ again (*i.e.*, drop element $a$)?
+
+$$
+\begin{align}
+DSC(X, Y) &= \frac{2 \times |\{b, c\}|}{|\{b, c\}| + |\{b, c, d, e, f\}|}\\
+&= \frac{2 \times 2}{2 + 5} \\
+&= \frac{4}{7} \approx 0.57 
+\end{align}
+$$
+
+Like Jaccard, the Sørensen--Dice similarity coefficient does *not* equate a proper subset to identity but does calculate it as a stronger similarity than the Jaccard similarity index. The difference is that while Jaccard is the ratio of intersection to union, Sørensen--Dice is the ratio of the intersection to the *disjoint* union (*i.e.*, union minus intersection) of the two sets.
+
+Effectively, it's the ratio of matches to mismatches rather than Jaccard's ratio of matches to the overall membership. As before, this may be better suited depending on your particular application.
+
+The setup for the function for our binary incidence matrix should be familiar by now.
 
 ```{r}
 
@@ -301,4 +333,6 @@ soren_dice_sim_bin <- function(x) {
 
 ```
 
-## 
+# Choosing Similarity
+
+We now have three very specific ways to measure similarity, so how do we choose which measure to use? Well, there's no "one size fits all" answer so we have to decide what we mean by "similarity" for our particular scenario. WE have to think through our data-generating processes
