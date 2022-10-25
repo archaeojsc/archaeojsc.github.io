@@ -184,10 +184,10 @@ soren_dice_sim_bin <- function(x) {
 
 prov_adj_sd <- soren_dice_sim_bin(t(g_assemblages_bpg_inc))
 
-prov_sd_val <-
+prov_sd_vals <-
   prov_adj_sd[lower.tri(prov_adj_sd, diag = FALSE)]
 
-ggplot(data = data.frame(x = prov_sd_val), aes(x = x)) +
+ggplot(data = data.frame(x = prov_sd_vals), aes(x = x)) +
   geom_density(color = "green") +
   ggtitle("Distribution of Sorenson-Dice Similarity for Provenience")
 
@@ -216,10 +216,10 @@ ggplot(data = data.frame(x = E(g_assemblages_proj_prov_sd)$weight), aes(x = x)) 
 
 artifact_adj_sd <- soren_dice_sim_bin(g_assemblages_bpg_inc)
 
-artifact_sd_val <-
+artifact_sd_vals <-
   artifact_adj_sd[lower.tri(artifact_adj_sd, diag = FALSE)]
 
-ggplot(data = data.frame(x = artifact_sd_val), aes(x = x)) +
+ggplot(data = data.frame(x = artifact_sd_vals), aes(x = x)) +
   geom_density(color = "blue") +
   ggtitle("Distribution of Sorenson-Dice Similarity for Artifacts")
 
@@ -275,10 +275,10 @@ jaccard_sim_bin <- function(x) {
 
 prov_adj_jacc <- jaccard_sim_bin(t(g_assemblages_bpg_inc))
 
-prov_jacc_val <-
+prov_jacc_vals <-
   prov_adj_jacc[lower.tri(prov_adj_jacc, diag = FALSE)]
 
-ggplot(data = data.frame(x = prov_jacc_val), aes(x = x)) +
+ggplot(data = data.frame(x = prov_jacc_vals), aes(x = x)) +
   geom_density(color = "green") +
   ggtitle("Distribution of Jaccard Similarity for Provenience")
 
@@ -307,10 +307,10 @@ ggplot(data = data.frame(x = E(g_assemblages_proj_prov_jacc)$weight), aes(x = x)
 
 artifact_adj_jacc <- jaccard_sim_bin(g_assemblages_bpg_inc)
 
-artifact_jacc_val <-
+artifact_jacc_vals <-
   artifact_adj_jacc[lower.tri(artifact_adj_jacc, diag = FALSE)]
 
-ggplot(data = data.frame(x = artifact_jacc_val), aes(x = x)) +
+ggplot(data = data.frame(x = artifact_jacc_vals), aes(x = x)) +
   geom_density(color = "blue") +
   ggtitle("Distribution of Jaccard Similarity for Artifacts")
 
@@ -358,4 +358,52 @@ tom_adjacency_matrix <- function(adj_mat) {
 
 
 
-## Artifact type overlap matrix---------------------------------------------
+## Artifact type overlap matrix --------------------------------------------
+
+
+# Distribution of sample sizes ---------------------------------------------
+
+require(gridExtra)
+
+grid.arrange(
+  ggplot(
+    data = data.frame(x = rowSums(g_assemblages_bpg_inc)), 
+    aes(x = x)) +
+    geom_histogram(color = "gray", fill = "green", bins = 20) +
+    ggtitle("Artifact Types per Provenience"),
+  
+  ggplot(
+    data = data.frame(x = colSums(g_assemblages_bpg_inc)), 
+    aes(x = x)) +
+    geom_histogram(color = "gray", fill = "blue", bins = 20) +
+    ggtitle("Occurence per Artifact Type"),
+  
+  ncol = 2
+)
+
+
+
+# Comparing similarity measures -------------------------------------------
+
+prov_sims <-
+  data.frame(ssoc = prov_ssoc_vals, 
+             jacc = prov_jacc_vals, 
+             sd = prov_sd_vals)
+
+prov_sims %>% stack() %>%
+  ggplot(aes(x = values)) +
+  geom_density(color = "green",
+               alpha = 0.4) +
+  facet_grid(ind ~ ., scales = "free")
+
+artifact_sims <-
+  data.frame(ssoc = artifact_ssoc_vals, 
+             jacc = artifact_jacc_vals, 
+             sd = artifact_sd_vals)
+
+artifact_sims %>% stack() %>% 
+  ggplot(aes(x = values)) +
+  geom_density(color = "blue",
+               alpha = 0.4) + 
+  facet_grid(ind ~ ., scales = "free")
+

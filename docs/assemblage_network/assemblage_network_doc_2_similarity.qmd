@@ -114,7 +114,7 @@ g_assemblages_bpg_inc[1:5, 1:15]
 
 ```
 
-Depending on which way we view our incidence matrix, we now have a collection of the sets of artifact types found at each provenience (by row) or sets of proveniences at which each artifact type was found (by column).
+Depending on which way we orient our incidence matrix, we now have a collection of the sets of artifact types found at each provenience (by row) or sets of proveniences at which each artifact type was found (by column).
 
 The goal is to find a partitioning of this system of sets such that each subset of provenience contains a coherent collection of artifact types (i.e., what archaeologists call an *assemblage*) and each subset of artifact types are found together in a coherent spatial collection of proveniences (we call those a *context*).
 
@@ -335,4 +335,123 @@ soren_dice_sim_bin <- function(x) {
 
 # Choosing Similarity
 
-We now have three very specific ways to measure similarity, so how do we choose which measure to use? Well, there's no "one size fits all" answer so we have to decide what we mean by "similarity" for our particular scenario. WE have to think through our data-generating processes
+We now have three very specific ways to measure similarity, so how do we choose which measure to use? Well, there's no "one size fits all" answer so we have to decide what we mean by "similarity" for our particular scenario.
+
+We have to think through our data-generating processes, and decide what we *sort* of similarities we are trying to capture depending on what we believe to be the inherent structuring. More importantly, we need to *justify* that decision from the data.
+
+## Revisiting the Data Distributions
+
+Recall from [Part I](https://medium.com/p/648a2f20d389) that when we looked at the degree and edge-weight distributions, for both provenience and artifact type, that we have high-density connections formed by relatively low-strength edges. We're looking at similarity measures to rectify that, but just how "sparse" is our goal (i.e., our threshold value for similarity)?
+
+When looking at the various similarity metrics and their intuitions, we found that the relative weighting of commonalities to differences made a significant difference. The cardinality involved for each calculation, though, is fully dependent on how many members are likely to be in each sample. That also implies that *diversity* in sample sizes will effect our similarity measures. Let's see what those look like.
+
+```{r}
+#| fig-cap: "Sample size distribution."
+
+require(gridExtra)
+
+grid.arrange(
+  ggplot(
+    data = data.frame(x = rowSums(g_assemblages_bpg_inc)), 
+    aes(x = x)) +
+    geom_histogram(color = "gray", fill = "green", bins = 20) +
+    ggtitle("Artifact Types per Provenience"),
+  
+  ggplot(
+    data = data.frame(x = colSums(g_assemblages_bpg_inc)), 
+    aes(x = x)) +
+    geom_histogram(color = "gray", fill = "blue", bins = 20) +
+    ggtitle("Occurence per Artifact Type"),
+  
+  ncol = 2
+)
+
+```
+
+On the left, we have the density distribution of how many artifact types tend to be found within a single provenience. On the right, we have the number of proveniences in which any single artifact type is found.
+
+One thing immediately jumps out -- a substantial proportion of our proveniences contain a rather diverse collection of artifact types, but most of those individual types are found in very few proveniences. It's also worth noting that it seems that some artifact types are showing up in a very high proportion of proveniences. Remember, our sample contains only 152 proveniences and 251 unique artifact types at our site. 
+
+Both distributions are right-skewed, though, which is promising for our attempt to find hidden network structure. Why? Well, it means that all of those values on the right-hand tails aren't especially likely to be particularly informative.
+
+An artifact type that shows up *everywhere* tells us very little about the associations between *other* artifact types, and next to nothing about the differences or similarities between proveniences. Similarly, proveniences that contain a little bit of everything don't help us in finding spatial distinctions and are quite likely locations in which different assemblages may be mixed together.
+
+The inherent *structure* that we\'re looking for isn\'t likely to be found in those samples. Luckily, we now know that the *bulk* of the samples should (when projected as one-mode graphs) have a much smaller graph node *degree* than what we found in our \"everything-to-everything\" projections from before. 
+
+## Comparing Similarity Measures
+
+### Comparing similarities for proveniences
+
+```{r}
+# Overlap coefficient, provenience
+prov_adj_ssoc <- overlap_coef_bin(t(g_assemblages_bpg_inc))
+
+prov_ssoc_vals <-
+  prov_adj_ssoc[lower.tri(prov_adj_ssoc, diag = FALSE)]
+
+# Jaccard, provenience
+prov_adj_jacc <- jaccard_sim_bin(t(g_assemblages_bpg_inc))
+
+prov_jacc_vals <-
+  prov_adj_jacc[lower.tri(prov_adj_jacc, diag = FALSE)]
+
+# Sorenson-Dice
+prov_adj_sd <- soren_dice_sim_bin(t(g_assemblages_bpg_inc))
+
+prov_sd_vals <-
+  prov_adj_sd[lower.tri(prov_adj_sd, diag = FALSE)]
+  
+# Make data frame to compare
+prov_sims <-
+  data.frame(ssoc = prov_ssoc_vals, 
+             jacc = prov_jacc_vals, 
+             sd = prov_sd_vals)
+             
+# Plot densities by similarity measure
+prov_sims %>% stack() %>%
+  ggplot(aes(x = values)) +
+  geom_density(color = "green",
+               alpha = 0.4) +
+  facet_grid(ind ~ ., scales = "free")    
+```
+
+### Comparing similarities for artifact types
+
+```{r}
+
+# Overlap coefficient, artifact types
+artifact_adj_ssoc <- overlap_coef_bin(g_assemblages_bpg_inc)
+
+artifact_ssoc_vals <-
+  artifact_adj_ssoc[lower.tri(artifact_adj_ssoc, diag = FALSE)]
+
+# Jaccard, artifact types
+artifact_adj_jacc <- jaccard_sim_bin(g_assemblages_bpg_inc)
+
+artifact_jacc_vals <-
+  artifact_adj_jacc[lower.tri(artifact_adj_jacc, diag = FALSE)]
+
+#Sorenson-Dice, artifact types
+artifact_adj_sd <- soren_dice_sim_bin(g_assemblages_bpg_inc)
+
+artifact_sd_vals <-
+  artifact_adj_sd[lower.tri(artifact_adj_sd, diag = FALSE)]
+
+# Make data frame to compare
+artifact_sims <-
+  data.frame(ssoc = artifact_ssoc_vals, 
+             jacc = artifact_jacc_vals, 
+             sd = artifact_sd_vals)
+
+# Plot densities by similarity measure
+artifact_sims %>% stack() %>% 
+  ggplot(aes(x = values)) +
+  geom_density(color = "blue",
+               alpha = 0.4) + 
+  facet_grid(ind ~ ., scales = "free")
+
+```
+
+### 
+
+

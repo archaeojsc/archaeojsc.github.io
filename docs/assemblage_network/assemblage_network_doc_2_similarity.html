@@ -222,7 +222,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 1737   1    0  0   0    1   1   0   0   1   1   1   1   0   1    0</code></pre>
 </div>
 </div>
-<p>Depending on which way we view our incidence matrix, we now have a collection of the sets of artifact types found at each provenience (by row) or sets of proveniences at which each artifact type was found (by column).</p>
+<p>Depending on which way we orient our incidence matrix, we now have a collection of the sets of artifact types found at each provenience (by row) or sets of proveniences at which each artifact type was found (by column).</p>
 <p>The goal is to find a partitioning of this system of sets such that each subset of provenience contains a coherent collection of artifact types (i.e., what archaeologists call an <em>assemblage</em>) and each subset of artifact types are found together in a coherent spatial collection of proveniences (we call those a <em>context</em>).</p>
 <p>What we’re trying to do now is to look at the ways we compute that “coherence” within the projected modes of our bipartite graph. In order to project our bipartite node types into two separate one-mode graphs, we want to evaluate similarity measures between pairwise comparisons of these sets.</p>
 </section>
@@ -295,7 +295,7 @@ Overlap(X, Y) &amp;= \frac{|\{b, c\}|}{\min(|\{a, b, c\}|, |\{b, c, d, e, f\}|)}
 <p><span class="math display">\[
 J(A, B) = \frac{|A \cap B|}{|A \cup B|} = \frac{|A \cap B|}{|A| + |B| - |A \cap B|}
 \]</span></p>
-<p>Unlike the overlap coefficient, you can see that the Jaccard index considers the <em>total</em> cardinality of the sets being compared in the denominator. That means that this index will <em>always</em> penalize differences between sets, even if one is a proper subset of the other.</p>
+<p>Unlike the overlap coefficient, you can see that the Jaccard index considers the <em>total</em> membership of both sets being compared in the denominator. That means that this index will <em>always</em> penalize differences between sets, even if one is a proper subset of the other.</p>
 <p>To demonstrate, let’s go back to our toy example sets <span class="math inline">\(X=\{a, b, c\}\)</span> and <span class="math inline">\(Y = \{b, c, d, e, f\}\)</span> to calculate the Jaccard index value.</p>
 <p><span class="math display">\[
 \begin{align}
@@ -312,7 +312,7 @@ J(X, Y) &amp;= \frac{|\{b, c\}|}{|\{b, c\}| + |\{b, c, d, e, f\}| - |\{b, c\}|}\
 &amp;= \frac{2}{5} = 0.4
 \end{align}
 \]</span></p>
-<p>That’s a significant difference! Even though <span class="math inline">\(X\)</span> is a proper subset of <span class="math inline">\(Y\)</span>, the Jaccard index emphasizes the <em>differences</em> between the sets over their intersection. The greater the disparity between sets, the lower the index value. Again, depending on your use case, that extra penalization of difference may be to your advantage.</p>
+<p>That’s a significant difference! Even though <span class="math inline">\(X\)</span> is a proper subset of <span class="math inline">\(Y\)</span>, the Jaccard index emphasizes the <em>differences</em> between the sets over their commonalities. The greater the disparity between sets, the lower the index value. Again, depending on your use case, that extra penalization of difference may be to your advantage.</p>
 <p>The Jaccard similarity index is perhaps, as already mentioned, the most common and versatile of the set similarity measures. It’s often used for comparing categorical data, and frequently found in ecological or social science applications.</p>
 <p>Our function to calculate the index is very similar to that for the overlap coefficient, but substituting summation for minimum value in our outer product and changing the denominator.</p>
 <div class="cell">
@@ -344,8 +344,31 @@ J(X, Y) &amp;= \frac{|\{b, c\}|}{|\{b, c\}| + |\{b, c, d, e, f\}| - |\{b, c\}|}\
 <span id="cb6-26"><a href="#cb6-26" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
-<section id="sørensendice-coefficient" class="level2">
-<h2 class="anchored" data-anchor-id="sørensendice-coefficient">Sørensen–Dice Coefficient</h2>
+<section id="sørensendice-similarity-coefficient" class="level2">
+<h2 class="anchored" data-anchor-id="sørensendice-similarity-coefficient">Sørensen–Dice Similarity Coefficient</h2>
+<p>Similar to the Jaccard index, the Sørensen–Dice similarity coefficient compares the ratio of the intersection to the total membership of both sets. The difference is that the denominator for Sørensen–Dice is the sum of the cardinalities rather than that of the union of the sets as it is for Jaccard. Another difference is that Sørensen–Dice doubles the intersection in the numerator, which has the effect of “weighting” the commonalities between sets a little bit more than the differences.</p>
+<p><span class="math display">\[
+DSC(A, B) = \frac{2 \times |A \cap B|}{|A| + |B|}
+\]</span></p>
+<p>Let’s see how Sørensen–Dice similarity compares with our toy example <span class="math inline">\(X=\{a, b, c\}\)</span> and <span class="math inline">\(Y = \{b, c, d, e, f\}\)</span> again.</p>
+<p><span class="math display">\[
+\begin{align}
+DSC(X, Y) &amp;= \frac{2 \times |\{b, c\}|}{|\{a, b, c\}| + |\{b, c, d, e, f\}|}\\
+&amp;= \frac{2 \times 2}{3 + 5} \\
+&amp;= \frac{4}{8} = 0.5
+\end{align}
+\]</span></p>
+<p>As expected, our calculated similarity <span class="math inline">\(DSC = 0.5\)</span> is somewhat higher than Jaccard but lower than the Overlap Coefficient. What happens now if we make <span class="math inline">\(X\)</span> a proper subset of <span class="math inline">\(Y\)</span> again (<em>i.e.</em>, drop element <span class="math inline">\(a\)</span>)?</p>
+<p><span class="math display">\[
+\begin{align}
+DSC(X, Y) &amp;= \frac{2 \times |\{b, c\}|}{|\{b, c\}| + |\{b, c, d, e, f\}|}\\
+&amp;= \frac{2 \times 2}{2 + 5} \\
+&amp;= \frac{4}{7} \approx 0.57
+\end{align}
+\]</span></p>
+<p>Like Jaccard, the Sørensen–Dice similarity coefficient does <em>not</em> equate a proper subset to identity but does calculate it as a stronger similarity than the Jaccard similarity index. The difference is that while Jaccard is the ratio of intersection to union, Sørensen–Dice is the ratio of the intersection to the <em>disjoint</em> union (<em>i.e.</em>, union minus intersection) of the two sets.</p>
+<p>Effectively, it’s the ratio of matches to mismatches rather than Jaccard’s ratio of matches to the overall membership. As before, this may be better suited depending on your particular application.</p>
+<p>The setup for the function for our binary incidence matrix should be familiar by now.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Sørensen–Dice Coefficient for binary incidence matrices</span></span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a></span>
@@ -375,8 +398,56 @@ J(X, Y) &amp;= \frac{|\{b, c\}|}{|\{b, c\}| + |\{b, c, d, e, f\}| - |\{b, c\}|}\
 <span id="cb7-26"><a href="#cb7-26" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
-<section id="section" class="level2">
-<h2 class="anchored" data-anchor-id="section"></h2>
+</section>
+<section id="choosing-similarity" class="level1">
+<h1>Choosing Similarity</h1>
+<p>We now have three very specific ways to measure similarity, so how do we choose which measure to use? Well, there’s no “one size fits all” answer so we have to decide what we mean by “similarity” for our particular scenario.</p>
+<p>We have to think through our data-generating processes, and decide what we <em>sort</em> of similarities we are trying to capture depending on what we believe to be the inherent structuring. More importantly, we need to <em>justify</em> that decision from the data.</p>
+<section id="revisiting-the-data-distributions" class="level2">
+<h2 class="anchored" data-anchor-id="revisiting-the-data-distributions">Revisiting the Data Distributions</h2>
+<p>Recall from Part I that when we looked at the degree and edge-weight distributions, for both provenience and artifact type, that we have high-density connections formed by relatively low-strength edges. We’re looking at similarity measures to rectify that, but just how “sparse” is our goal (i.e., our threshold value for similarity)?</p>
+<p>When looking at the various similarity metrics and their intuitions, we found that the relative weighting of commonalities to differences made a significant difference. The cardinality involved for each calculation, though, is fully dependent on how many members are likely to be in each sample. That also implies that <em>diversity</em> in sample sizes will effect our similarity measures. Let’s see what those look like.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">require</span>(gridExtra)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Loading required package: gridExtra</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>
+Attaching package: 'gridExtra'</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following object is masked from 'package:dplyr':
+
+    combine</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">grid.arrange</span>(</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="at">data =</span> <span class="fu">data.frame</span>(<span class="at">Type_Count =</span> <span class="fu">rowSums</span>(</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>    g_assemblages_bpg_inc</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>  )),</span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">aes</span>(<span class="at">x =</span> Type_Count)) <span class="sc">+</span></span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_density</span>(<span class="at">color =</span> <span class="st">"green"</span>) <span class="sc">+</span></span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ggtitle</span>(<span class="st">"Artifact Types per Provenience"</span>),</span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="at">data =</span> <span class="fu">data.frame</span>(<span class="at">Prov_Count =</span> <span class="fu">colSums</span>(</span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a>    g_assemblages_bpg_inc</span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a>  )),</span>
+<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">aes</span>(<span class="at">x =</span> Prov_Count)) <span class="sc">+</span></span>
+<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_density</span>(<span class="at">color =</span> <span class="st">"blue"</span>) <span class="sc">+</span></span>
+<span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ggtitle</span>(<span class="st">"Occurence per Artifact Type"</span>),</span>
+<span id="cb12-15"><a href="#cb12-15" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb12-16"><a href="#cb12-16" aria-hidden="true" tabindex="-1"></a>  <span class="at">ncol =</span> <span class="dv">2</span></span>
+<span id="cb12-17"><a href="#cb12-17" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="assemblage_network_doc_2_similarity_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid figure-img" width="672"></p>
+<p></p><figcaption class="figure-caption">Sample size distribution.</figcaption><p></p>
+</figure>
+</div>
+</div>
+</div>
+<p>On the left, we have the density distribution of how many artifact types tend to be found within a single provenience. On the right, we have the number of proveniences in which any single artifact type is found. One thing immediately jumps out – a substantial proportion of our proveniences contain a rather diverse collection of artifact types, but most of those individual types are found in very few proveniences.</p>
 </section>
 </section>
 
