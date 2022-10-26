@@ -391,6 +391,7 @@ prov_sims <-
              sd = prov_sd_vals)
 
 prov_sims %>% stack() %>%
+  # filter(values > 0) %>% # View non-zero entries
   ggplot(aes(x = values)) +
   geom_density(color = "green",
                alpha = 0.4) +
@@ -402,6 +403,7 @@ artifact_sims <-
              sd = artifact_sd_vals)
 
 artifact_sims %>% stack() %>% 
+  # filter(values > 0) %>% # View non-zero entries
   ggplot(aes(x = values)) +
   geom_density(color = "blue",
                alpha = 0.4) + 

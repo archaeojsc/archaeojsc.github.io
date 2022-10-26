@@ -2,7 +2,7 @@
 title: "Similarity Measures for Graph Adjacency with Sets"
 author: "James Scott Cardinal"
 date: 10/14/2021
-format: html
+format: pdf
 editor: visual
 editor_options: 
   chunk_output_type: inline
@@ -155,11 +155,11 @@ $$
 For example, say we have two sets: $X=\{a, b, c\}$ and $Y = \{b, c, d, e, f\}$. Their intersection is $X \cap Y = \{b, c\}$ and the sets have cardinality $|X|=3$ and $|Y| = 5$. Their overlap coefficient would be:
 
 $$
-\begin{align}
+\begin{aligned}
 Overlap(X, Y) &= \frac{|\{b, c\}|}{\min(|\{a, b, c\}|, |\{b, c, d, e, f\}|)}\\
 &= \frac{2}{\min (3, 5)} \\
 &= \frac{2}{3} \approx 0.67 
-\end{align}
+\end{aligned}
 $$
 
 Easy, right? It's just the proportion of the smaller set's members that are also members of the larger set (thus, *overlap*).
@@ -214,21 +214,21 @@ Unlike the overlap coefficient, you can see that the Jaccard index considers the
 To demonstrate, let's go back to our toy example sets $X=\{a, b, c\}$ and $Y = \{b, c, d, e, f\}$ to calculate the Jaccard index value.
 
 $$
-\begin{align}
+\begin{aligned}
 J(X, Y) &= \frac{|\{b, c\}|}{|\{a, b, c\}| + |\{b, c, d, e, f\}| - |\{b, c\}|}\\
 &= \frac{2}{3 + 5 - 2} \\
 &= \frac{2}{6} \approx 0.33 
-\end{align}
+\end{aligned}
 $$
 
 By considering the total cardinality of the sets, the Jaccard index comes back a fair bit *lower* than the Overlap Coefficient ($\approx 0.67$). Next, let's go ahead and drop element $a$ to make $X$ a proper subset of $Y$ and see what happens. Whereas the Overlap Coefficient was $1$, we find that
 
 $$
-\begin{align}
+\begin{aligned}
 J(X, Y) &= \frac{|\{b, c\}|}{|\{b, c\}| + |\{b, c, d, e, f\}| - |\{b, c\}|}\\
 &= \frac{2}{2 + 5 - 2} \\
 &= \frac{2}{5} = 0.4 
-\end{align}
+\end{aligned}
 $$
 
 That's a significant difference! Even though $X$ is a proper subset of $Y$, the Jaccard index emphasizes the *differences* between the sets over their commonalities. The greater the disparity between sets, the lower the index value. Again, depending on your use case, that extra penalization of difference may be to your advantage.
@@ -279,21 +279,21 @@ $$
 Let's see how Sørensen--Dice similarity compares with our toy example $X=\{a, b, c\}$ and $Y = \{b, c, d, e, f\}$ again.
 
 $$
-\begin{align}
+\begin{aligned}
 DSC(X, Y) &= \frac{2 \times |\{b, c\}|}{|\{a, b, c\}| + |\{b, c, d, e, f\}|}\\
 &= \frac{2 \times 2}{3 + 5} \\
 &= \frac{4}{8} = 0.5 
-\end{align}
+\end{aligned}
 $$
 
 As expected, our calculated similarity $DSC = 0.5$ is somewhat higher than Jaccard but lower than the Overlap Coefficient. What happens now if we make $X$ a proper subset of $Y$ again (*i.e.*, drop element $a$)?
 
 $$
-\begin{align}
+\begin{aligned}
 DSC(X, Y) &= \frac{2 \times |\{b, c\}|}{|\{b, c\}| + |\{b, c, d, e, f\}|}\\
 &= \frac{2 \times 2}{2 + 5} \\
 &= \frac{4}{7} \approx 0.57 
-\end{align}
+\end{aligned}
 $$
 
 Like Jaccard, the Sørensen--Dice similarity coefficient does *not* equate a proper subset to identity but does calculate it as a stronger similarity than the Jaccard similarity index. The difference is that while Jaccard is the ratio of intersection to union, Sørensen--Dice is the ratio of the intersection to the *disjoint* union (*i.e.*, union minus intersection) of the two sets.
@@ -376,7 +376,7 @@ Both distributions are right-skewed, though, which is promising for our attempt 
 
 An artifact type that shows up *everywhere* tells us very little about the associations between *other* artifact types, and next to nothing about the differences or similarities between proveniences. Similarly, proveniences that contain a little bit of everything don't help us in finding spatial distinctions and are quite likely locations in which different assemblages may be mixed together.
 
-The inherent *structure* that we\'re looking for isn\'t likely to be found in those samples. Luckily, we now know that the *bulk* of the samples should (when projected as one-mode graphs) have a much smaller graph node *degree* than what we found in our \"everything-to-everything\" projections from before. 
+The inherent *structure* that we're looking for isn't likely to be found in those samples. Luckily, we now know that the *bulk* of the samples should (when projected as one-mode graphs) have a much smaller graph node *degree* than what we found in our "everything-to-everything" projections from before. 
 
 ## Comparing Similarity Measures
 
@@ -453,5 +453,3 @@ artifact_sims %>% stack() %>%
 ```
 
 ### 
-
-
