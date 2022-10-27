@@ -99,16 +99,16 @@ ggplot(data = data.frame(x = c(prov_ssoc_vals)), aes(x = x)) +
   ggtitle("Distribution of Szymkiewicz-Simpson Similarity for Proveniences")
 
 g_assemblages_proj_prov_oc <-
-  graph_from_adjacency_matrix(prov_adj_ssoc,
+  graph_from_adjacency_matrix(ifelse(prov_adj_ssoc < 0.8, 0, prov_adj_ssoc),
                               mode = "undirected",
                               weighted = TRUE,
                               diag = FALSE)
 
-# g_assemblages_proj_prov_oc %>%
-#   ggraph(layout = "kk") +
-#   geom_edge_link(color = "gray", aes(alpha = weight)) +
-#   geom_node_point(color = "green", size = 2) +
-#   ggtitle("Network of Proveniences")
+g_assemblages_proj_prov_oc %>%
+  ggraph(layout = "fr") +
+  geom_edge_link(color = "gray", aes(alpha = weight)) +
+  geom_node_point(color = "green", size = 2) +
+  ggtitle("Network of Proveniences")
 
 ggplot(data = data.frame(x = degree(g_assemblages_proj_prov_oc)), aes(x = x)) +
   geom_density(color = "green") +
@@ -192,7 +192,7 @@ ggplot(data = data.frame(x = prov_sd_vals), aes(x = x)) +
   ggtitle("Distribution of Sorenson-Dice Similarity for Provenience")
 
 g_assemblages_proj_prov_sd <-
-  graph_from_adjacency_matrix(prov_adj_sd,
+  graph_from_adjacency_matrix(ifelse(prov_adj_sd < 0.439, 0, prov_adj_sd),
                               mode = "undirected",
                               weighted = TRUE,
                               diag = FALSE)
@@ -283,16 +283,16 @@ ggplot(data = data.frame(x = prov_jacc_vals), aes(x = x)) +
   ggtitle("Distribution of Jaccard Similarity for Provenience")
 
 g_assemblages_proj_prov_jacc <-
-  graph_from_adjacency_matrix(prov_adj_jacc,
+  graph_from_adjacency_matrix(ifelse(prov_adj_jacc <0.281, 0, prov_adj_jacc),
                               mode = "undirected",
                               weighted = TRUE,
                               diag = FALSE)
 
-# g_assemblages_proj_prov_jacc %>%
-#   ggraph(layout = "kk") +
-#   geom_edge_link(color = "gray", aes(alpha = weight)) +
-#   geom_node_point(color = "green", size = 2) +
-#   ggtitle("Network of Proveniences")
+g_assemblages_proj_prov_jacc %>%
+  ggraph(layout = "kk") +
+  geom_edge_link(color = "gray", aes(alpha = weight)) +
+  geom_node_point(color = "green", size = 2) +
+  ggtitle("Network of Proveniences")
 
 ggplot(data = data.frame(x = degree(g_assemblages_proj_prov_jacc)), aes(x = x)) +
   geom_density(color = "green") +
@@ -397,6 +397,11 @@ prov_sims %>% stack() %>%
                alpha = 0.4) +
   facet_grid(ind ~ ., scales = "free")
 
+prov_sims %>% stack() %>%
+  filter(values > 0) %>%
+  ggplot(aes(x = ind, y = values, fill = ind)) +
+  geom_violin()
+
 artifact_sims <-
   data.frame(ssoc = artifact_ssoc_vals, 
              jacc = artifact_jacc_vals, 
@@ -408,4 +413,10 @@ artifact_sims %>% stack() %>%
   geom_density(color = "blue",
                alpha = 0.4) + 
   facet_grid(ind ~ ., scales = "free")
+
+artifact_sims %>% stack() %>%
+  filter(values > 0) %>%
+  ggplot(aes(x = ind, y = values, fill = ind)) +
+  geom_violin()
+
 
