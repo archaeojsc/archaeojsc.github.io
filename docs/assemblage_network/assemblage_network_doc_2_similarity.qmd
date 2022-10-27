@@ -136,7 +136,7 @@ So many questions, but parsing the artifact and provenience data into assemblage
 
 # Similarity Measures for Projections
 
-We found out in the last installment ([Part I](https://medium.com/p/648a2f20d389)) that the `bipartite_projection` method in `igraph` only sums the number of pairwise coincidences. That means, though, that even one shared element between sets is enough to link them. It doesn't, at all, factor in how many elements of the sets are *different* or the *total* number of elements being considered.
+We found out in [Part I](https://medium.com/p/648a2f20d389) that the `bipartite_projection` method in `igraph` only sums the number of pairwise coincidences. That means, though, that even one shared element between sets is enough to link them. It doesn't, at all, factor in how many elements of the sets are *different* or the *total* number of elements being considered.
 
 In the end, every node in each projection was linked to almost every other node with no good way to evaluate the *strength* of those connections. Not particularly useful.
 
