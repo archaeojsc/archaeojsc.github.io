@@ -1,5 +1,5 @@
 ---
-title: "Similarity Measures for Graph Adjacency with Sets"
+title: "Similarity Measures and Graph Adjacency with Sets"
 author: "James Scott Cardinal"
 date: 10/14/2021
 format: html
@@ -40,6 +40,8 @@ Before we get into the weeds of metrics, methods, and combinatorics (i.e., the m
 In general, we refer to things as *similar* when they are neither the quite the same nor are they entirely different. Similar things are alike-*ish*. It means that some measure of shared features or attributes is suggesting *association* but not necessarily *commonality* or *identity*. It denotes a resemblance or correspondence, but there's a certain fuzziness about it -- i.e., similarity implies a subjective or qualitative assessment.
 
 Our goal, then, is twofold. Firstly, we need to determine what set similarity metric most closely reflects the *relationship* between set elements. Secondly, we have to determine an appropriate method for determining the *threshold* of similarity between those entities. In other words, we need to choose our criteria for *resemblance* and set the *limits* of what is (or isn't) considered similar between our sets.
+
+In this installment, we'll be looking at addressing the first goal by exploring some common algorithms for measuring similarity. I'll discuss the intuitions behind them, their strengths, and the criteria for choosing appropriate metrics. SInce that involves somewhat lengthy discussion, I'll hold off on talking about thresholds for the next article when we start looking at network structure and community detection.
 
 ## Sets and Similarity
 
@@ -122,7 +124,7 @@ What we're trying to do now is to look at the ways we compute that "coherence" w
 
 ## Archaeological Objectives
 
-In the last [installment](https://link.medium.com/DrRhVKZIItb), I introduced you to a couple archaeological concepts as well as a few concepts about sets and graphs. Now I'd like to pause to explain why we're so interested in finding these subsets and partitions. You see, archaeologists don't really interpret artifacts *per se*.
+In my last [article](https://link.medium.com/DrRhVKZIItb), I introduced you to a couple archaeological concepts as well as a few concepts about sets and graphs. Now I'd like to pause to explain why we're so interested in finding these subsets and partitions. You see, archaeologists don't really interpret artifacts *per se*.
 
 We're interested in interpreting human activities across time and space, which gives us a window into far more abstract concepts like *behavior* or *culture*. The way we do that, since we don't have a time machine to go back and observe what people were actually doing, is by looking for patterns of associations between the physical remnants (i.e., the debris or *trash*) left behind by those activities. Weird, I know, but it works surprisingly well.
 
@@ -341,12 +343,12 @@ We have to think through our data-generating processes, and decide what we *sort
 
 ## Revisiting the Data Distributions
 
-Recall from [Part I](https://medium.com/p/648a2f20d389) that when we looked at the degree and edge-weight distributions, for both provenience and artifact type, that we have high-density connections formed by relatively low-strength edges. We're looking at similarity measures to rectify that, but just how "sparse" is our goal (i.e., our threshold value for similarity)?
+Recall from [Part I](https://medium.com/p/648a2f20d389) that when we looked at the degree and edge-weight distributions, for both provenience and artifact type, that we have high-density connections formed by relatively low-strength edges. We're looking at similarity measures to rectify that, but just how "sparse" do we want to make our one-mode projections? Which method is most likely to reveal if there is real structure to our data, and which might inadvertently obscure connections?
 
-When looking at the various similarity metrics and their intuitions, we found that the relative weighting of commonalities to differences made a significant difference. The cardinality involved for each calculation, though, is fully dependent on how many members are likely to be in each sample. That also implies that *diversity* in sample sizes will effect our similarity measures. Let's see what those look like.
+When looking at the various similarity metrics and their intuitions, we found that the relative weighting of commonalities to differences made a significant difference. The *cardinality* involved for each calculation, though, is fully dependent on how many members are likely to be in each sample. That also implies that *diversity* in sample sizes will effect our similarity measures. Let's see what those look like.
 
 ```{r, message=FALSE}
-#| fig-cap: "Sample size distribution."
+#| fig-cap: "Sample size distributions for provenience and artifact types."
 
 require(gridExtra)
 
@@ -372,11 +374,17 @@ On the left, we have the density distribution of how many artifact types tend to
 
 One thing immediately jumps out -- a substantial proportion of our proveniences contain a rather diverse collection of artifact types, but most of those individual types are found in very few proveniences. It's also worth noting that it seems that some artifact types are showing up in a very high proportion of proveniences. Remember, our sample contains only 152 proveniences and 251 unique artifact types at our site. 
 
-Both distributions are right-skewed, though, which is promising for our attempt to find hidden network structure. Why? Well, it means that all of those values on the right-hand tails aren't especially likely to be particularly informative. That skew is much more prominent in the artifact types. Provenience, on the other hand, is somewhat less skewed, which suggests less discrete spatial structure overall.
+Both distributions are right-skewed, though, which is promising for our attempt to find hidden network structure. Why? Well, it means that all of those values on the right-hand tails aren't especially likely to be particularly informative.
 
-An artifact type that shows up *everywhere* tells us very little about the associations between *other* artifact types, and next to nothing about the differences or similarities between proveniences. Similarly, proveniences that contain a little bit of everything don't help us in finding spatial distinctions and are quite likely locations in which different assemblages may be mixed together.
+That skew is much more prominent in the artifact types. Provenience, on the other hand, is somewhat less skewed, which suggests less discrete spatial structure overall.
 
-Not to say they're unimportant, and we can link them back in once we've found the primary structures for further analysis, but for now they are uninformative. The inherent *structure* that we're looking for isn't likely to be found in those samples. Luckily, we now know that the *bulk* of the samples should (when projected as one-mode graphs) have a much smaller graph node *degree* than what we found in our "everything-to-everything" projections from before. 
+An artifact type that shows up *everywhere* tells us very little about the associations between *other* artifact types, and next to nothing about the differences or similarities between proveniences.
+
+Similarly, proveniences that contain a little bit of everything don't help us in finding spatial distinctions and are quite likely locations in which different assemblages may be mixed together.
+
+Not to say they're unimportant, and we can link them back in once we've found the primary structures for further analysis, but for now they are uninformative. The inherent *structure* that we're looking for isn't likely to be found in those samples.
+
+Luckily, we now know that the *bulk* of the samples should (when projected as one-mode graphs) have a much smaller graph node *degree* than what we found in our "everything-to-everything" projections from before. 
 
 ## Comparing Similarity Measures
 
@@ -435,15 +443,17 @@ prov_sims %>% stack() %>%
 
 It's easy to see how the different similarity measures follow the intuitions about sets that we discussed earlier.
 
-The overlap coefficient (`ssoc` top row) is almost *looking* for subsets, so nearly half of the proveniences are calculated as being 50% (or better) matches. That means that, by set overlap at least, a large proportion of our location samples would be considered more similar than not -- and may of them considered identical.
+The overlap coefficient (`ssoc` top row) is almost *looking* for subsets, so nearly half of the proveniences are calculated as being 50% (or better) matches. That means that, by set overlap at least, a large proportion of our location samples would be considered more similar than not -- and many of them considered identical.
 
 Conversely, the Jaccard similarity index (`jacc` middle row) computes the majority of those same proveniences as *dissimilar*. Unlike the overlap coefficient, Jaccard is prioritizing *difference* over intersection since the union of two sets will *always* be larger than their intersection unless the sets *are* identical.
 
 Similarly, the Sørensen--Dice similarity index (`sd` bottom row) is seen to be weighting the differences betwen our samples more heavily -- but *only* the differences, and not the full cardinality of the joined sets. The density curve is quite similar to Jaccard, but you can see that it's emphasis on the intersection of sets pushes the similarity values higher towards the 50% mark.
 
-Notice, though, how our provenience data distribution can be seen reflected in the similarity metric profiles. Even though the counts of artifact types per provenience are somewhat right-skewed, a majority of proveniences demonstrate relatively high-cardinality sets. That leads to the curiously multi-modal distribution to our similarity metrics. We'll come back to that in a bit.
+Notice, though, how our provenience data distribution can be seen reflected in the similarity metric profiles. Even though the counts of artifact types per provenience are somewhat right-skewed, a majority of proveniences demonstrate relatively high-cardinality sets. That leads to the curiously multi-modal distribution to our similarity metrics.
 
-Next, let's take a look at the projections of similarity along the artifact types.
+Larger sets means that it is *more* likely that there may be at least some intersection between pairs of proveniences. Unfortunately, that increases the likelihood of small but *spurious* similarities as well.
+
+Next, let's take a look at the projections of similarity along artifact types.
 
 ```{r}
 
@@ -485,14 +495,14 @@ artifact_sims %>% stack() %>%
 
 ```
 
-These look very different than the density profiles of provenience similarity, but also notice that now there seems to be considerable *less* difference between similarity measures. Why is that?
+These look very different from the density profiles of provenience similarity, but also notice that now there seems to be considerable *less* difference between similarity measures. Why is that?
 
-Well, because the distribution of the number of proveniences in which each artifact type appears is *much* more right-skewed and heavy-tailed. In other words, we're comparing much *smaller* sets on average. That makes intersections smaller and less likely to begin with. It also, however, makes any correspondence between sets much more meaningful.
+Well, because the distribution of the number of proveniences in which each artifact type appears is *much* more right-skewed than types per provenience. In other words, we're comparing much *smaller* sets on average. That makes intersections smaller and less likely to begin with. It also, however, makes any correspondence between sets much more meaningful.
 
-If you look closely, you'll notice that the differences between our three similarity measure are still visible within that heavy right tail. If we exclude the zero values, we can see that more clearly.
+If you look closely, you'll notice that the differences between our three similarity measure are still visible within that right tail. If we exclude the zero values, we can see that more clearly.
 
 ```{r}
-# Plot densities by similarity measure
+# Plot densities by similarity measure, excluding zeroes
 artifact_sims %>% stack() %>% 
   filter(values > 0) %>% # Exclude zeroes
   ggplot(aes(x = values)) +
@@ -502,4 +512,30 @@ artifact_sims %>% stack() %>%
 
 ```
 
-When we take that "spike" of zero values away from our density distribution, you can see the same patterns of weighting between the three methods -- i.e., overlap looking for subsets, Jaccard for differences, and Sørensen--Dice for proportions between them. Interestingly, all three are also identifying that we do have at least some artifact types with identical patterns of occurrence.
+When we take that "spike" of zero values away from our density distribution, you can see the same patterns of weighting between the three methods -- i.e., overlap looking for subsets, Jaccard for differences, and Sørensen--Dice for proportions between them.
+
+Interestingly, all three are also identifying that we do have at least some artifact types with identical patterns of occurrence.
+
+## Which to Choose?
+
+I started out by say that the is no easy and obvious answer to that question, and our exploration should have demonstrated a bit of why that is so. Each method highlights a different aspect of the interactions within our data, so the *real* question is... well... whatever question it us that you are trying to tackle!
+
+*Our* question (i.e., the archaeological one) is whether there are partitions or sub-graphs represented in the samples that indicate the presence of communities. We want to find out if those communities map to discrete assemblages and contexts that we can interpret. We *do* want to capture proper subsets, but we also want to *avoid* spurious associations.
+
+Of the three methods presented here, which do you think satisfies those constraints?
+
+In graph terms, we're trying to find out if the data indicates something approximating a *scale-free* network. These are graphs in which the distribution of *degree* (i.e., the number of edges connected to a node) approaches a power law curve. If we can find *that* then odds are very good that we're looking at a "small world" network, which has very well-defined properties for analysis and community detection.
+
+If not, then we are still left with explicit and empirical evidence that the observed phenomena are products of random processes. We would know the *limits of inference* regarding this particular site. In other words, we have a proper hypothesis test for what many might assume was a subjective or qualitative assessment.
+
+# The Next Steps...
+
+We're not quite ready to select our similarity metric, unfortunately. We still need to do a little exploration of their effects on the resulting one-mode projected graphs, but by now I imagine you can start seeing where some of them will likely lead.
+
+Truth is, any of them *could* satisfy our criteria to varying degrees. The difference would be in the *weight* assigned to the connections formed, and those weights will prove to be quite important in our next few steps. Both the filter threshold and some of the community detection methods rely on edge weights.
+
+This is basically where *data* and *science* converge. Although there are numerous methods and algorithms that will produce a result, it's the rationale and justification of the *selection* of data and approaches that allows us to formulate and test hypotheses.
+
+Without that reasoning, we can make data dance and spin in all sorts of ways to get an output that *seems* legitimate. I'll do a separate article on the distinctions between *methods* and *methodology* a some point, I expect.
+
+Our next task will be to explore the effects of similarity metrics and thresholds on the structure of the resulting one-mode graphs. We'll talk a bit about scale-free and small world networks, graph analytics in general, and start looking at community detection methods.
