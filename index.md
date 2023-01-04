@@ -26,12 +26,13 @@ content will be available soon.*
 
 ## [Projects](projects_index.md)
 
-* Bipartite Graphs for Archaeological Assemblage Networks (Part I)
+* Data Governance Analysis and Migration (ongoing)
 
-* Mapping linguistic psychometrics using NLP/NLU and graph community detection
+* Bipartite Graph Association & Spatial Community Detection (ongoing)
 
-* Semantic modeling of paper topics using topological overlap matrix (TOM)
-  adjacency
+* Social Media Discourse Analysis (2021)
+
+* COVID-19 Research Abstract Topic Modeling and Query (2021)
 
 * Spatio-temporal assemblage analysis of Fort Edward, New York  
 

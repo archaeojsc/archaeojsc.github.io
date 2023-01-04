@@ -1,7 +1,15 @@
 
 # Projects
 
-## [Bipartite Graphs for Archaeological Assemblage Networks (Part I)](docs\assemblage_network_doc.html)
+## [Data Governance Analysis and Migration (ongoing)](https://github.com/archaeojsc/2022_Database_Migration)
+
+Automation of database discovery, schema and ontology extraction, comparison,
+and migration to a consolidated data management system using Python and pyODBC.
+Program office has ~1k+ individual MS Access databases containing research
+project data that has accumulated for 20+ years, but no data governance policies
+for managing data assets. 
+
+## [Bipartite Graph Association & Spatial Community Detection (ongoing)](https://github.com/archaeojsc/assemblage_network)
 
 This will be the first of a short series of articles to demonstrate how I've
 been using data, statistics, and such to gain insights into archaeological
@@ -11,7 +19,7 @@ graphs with `R`.
 
 ![Indiana Jones and the Temple of Math.](docs/assemblage_network/archaeo_DS.png)
 
-## [Mapping linguistic psychometrics using NLP/NLU and graph community detection](pdf/NST final report.pdf)
+## [Social Media Discourse Analysis (2021)](pdf/NST final report.pdf)
 
 Practicum project at GA Tech. My teammate and I applied natural language
 processing, functional linguistics, and belief network analysis to detect
@@ -20,11 +28,17 @@ parts of speech (i.e., pronouns) as psychometric indicators of discourse style,
 we extracted linguistic markers for clusivity and affinity to identify
 agonistic speech acts, conviction of belief, affiliation, and sentiment.
 
+Natural language processing (NLP), functional linguistics, and graph network
+analysis to evaluate psycholinguistic indicators in political speech. Analyzed
+collection of 15,000 tweets to learn patterns of sentiment and identify distinct
+communities of discourse style. Found linguistic markers that consistently
+identified influence and misinformation campaigns.
+
 ![Graph of Clusivity discourse communities.](images/Piper_thumb.png)
 
 ---
 
-## [Semantic modeling of paper topics using topological overlap matrix (TOM) adjacency](pdf/dnd_final_report.pdf)
+## [COVID-19 Research Abstract Topic Modeling and Query (2021) ](pdf/dnd_final_report.pdf)
 
 Data and Visual Analytics (DVA) class project at GA Tech. My teammates and I
 performed topic extraction and modeling of the semantic associations between
